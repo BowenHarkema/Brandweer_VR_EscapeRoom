@@ -5,26 +5,47 @@ using UnityEngine;
 public class CollisionDetection : MonoBehaviour
 {
     // 
+
     [SerializeField]
     private bool isFront;
-    void OnTriggerEnter(Collider collider)
+    [SerializeField]
+    private bool isBack;
+    [SerializeField] private ControllerMovementScript _controllerMovementScript;
+    private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Shelf")
         {
             if (isFront)
             {
-                print("er is contact voor");
+                _controllerMovementScript.P_isLockedForward = true;
+                print("er is contact voor true");
             }
-            else
+            if (isBack)
             {
-                print("er is contact achter");
+                _controllerMovementScript.P_isLockedBack = true;
+                print("er is contact achter true");
             }
-            //freeze button front
             
+
         }
-        else
+       
+    }
+    private void OnTriggerExit(Collider collider)
+    {
+        if (collider.gameObject.tag == "Shelf")
         {
-            print("je kan gassen maat");
+            if (isFront)
+            {
+                _controllerMovementScript.P_isLockedForward = false;
+                print("er is contact voor false");
+            }
+            if (isBack)
+            {
+                _controllerMovementScript.P_isLockedBack = false;
+                print("er is contact achter false");
+            }
+            
+
         }
     }
 }
