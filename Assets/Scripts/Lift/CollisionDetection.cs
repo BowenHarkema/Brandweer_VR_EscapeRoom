@@ -13,7 +13,7 @@ public class CollisionDetection : MonoBehaviour
     [SerializeField] private ControllerMovementScript _controllerMovementScript;
     private void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == "Shelf")
+        if (collider.gameObject.tag == "Shelf" || collider.gameObject.tag == "Wall")
         {
             if (isFront)
             {
@@ -32,7 +32,7 @@ public class CollisionDetection : MonoBehaviour
     }
     private void OnTriggerExit(Collider collider)
     {
-        if (collider.gameObject.tag == "Shelf")
+        if (collider.gameObject.tag == "Shelf" || collider.gameObject.tag == "Wall")
         {
             if (isFront)
             {
