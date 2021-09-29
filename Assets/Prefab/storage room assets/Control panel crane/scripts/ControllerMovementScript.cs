@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ControllerMovementScript : MonoBehaviour
 {
+   [SerializeField] private bool _isLocked;
+    public bool P_isLocked { get { return _isLocked; } set { _isLocked = value; } };
     public float speed = 1.5f;
    [SerializeField] public bool moveF = false;
    [SerializeField] public bool moveB = false;
@@ -29,6 +31,7 @@ public class ControllerMovementScript : MonoBehaviour
 
     public void boolSetB(bool b)
     {
+        
         moveF = b;
     }
 
