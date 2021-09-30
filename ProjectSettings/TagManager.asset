@@ -9,6 +9,7 @@ TagManager:
   - powercell
   - barcode
   - Shelf
+  - Wall
   layers:
   - Default
   - TransparentFX
