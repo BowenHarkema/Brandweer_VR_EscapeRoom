@@ -69,6 +69,12 @@ public class DoorDoubleSlide2 : MonoBehaviour {
             gameObject.GetComponent<ShowRooms>().HideRoom();
         }
     }
+
+    //force opens a door, for instance the reactor doors when all generators are up
+    public void forceOpenDoors()
+    {
+        opening = true;
+    }
 	
 
     //Open or close doors
