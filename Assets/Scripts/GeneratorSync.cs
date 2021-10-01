@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using TMPro;
 
 public class GeneratorSync : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class GeneratorSync : MonoBehaviour
     public int GeneratorUpCount { get { return _generatorUpCount; } set { _generatorUpCount = value; } }
 
     public UnityEvent AllGeneratorsUp = new UnityEvent();
+    public TextMeshProUGUI generatorUpText;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +31,11 @@ public class GeneratorSync : MonoBehaviour
     public void generatorUp()
     {
         if (_generatorUpCount < 5)
+        {
             _generatorUpCount++;
+
+            generatorUpText.text = $"Werkende generators: {_generatorUpCount.ToString()}/5";
+        }
         print("aantal generators up: " + _generatorUpCount);
     }
 }
