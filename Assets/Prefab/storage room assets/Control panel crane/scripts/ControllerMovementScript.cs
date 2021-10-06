@@ -35,29 +35,13 @@ public class ControllerMovementScript : MonoBehaviour
     }
 
     public void boolSetB(bool b)
-    {
-        if (!_isLockedForward)
-        {
-            moveB = b;
-        }
-        else
-        {
-            moveB = false;
-        }
-
+    { 
+        moveB = b;
     }
 
     public void boolSetF(bool b)
     {
-        if (!_isLockedBack)
-        {
-            moveF = b;
-        }
-        else
-        {
-            moveF = false;
-        }
-
+        moveF = b;
     }
 
     public void boolSetRotateL(bool b)

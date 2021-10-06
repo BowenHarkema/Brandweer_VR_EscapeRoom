@@ -9,7 +9,6 @@ public class CollisionDetection : MonoBehaviour
     /// If contact with said tagged object persists disallow movement in the respective destination
     /// </summary>
 
-    /// makes sure the box collider is the front box collider
     [SerializeField]
     private bool isFront;
     /// makes sure the box collider is the back box collider
@@ -28,18 +27,21 @@ public class CollisionDetection : MonoBehaviour
         {
             if (isFront)
             {
+                print("er is contact voor stopt");
                 _controllerMovementScript.P_isLockedForward = true;
-                print("er is contact voor true");
+                _controllerMovementScript.P_isLockedBack = false;
+
             }
             if (isBack)
             {
                 _controllerMovementScript.P_isLockedBack = true;
-                print("er is contact achter true");
+                _controllerMovementScript.P_isLockedForward = false;
+                print("er is contact achter stopt");
             }
-            
+
 
         }
-       
+
     }
     private void OnTriggerExit(Collider collider)
     {
@@ -48,14 +50,15 @@ public class CollisionDetection : MonoBehaviour
             if (isFront)
             {
                 _controllerMovementScript.P_isLockedForward = false;
-                print("er is contact voor false");
+
+                print("er is geen contact voor ");
             }
             if (isBack)
             {
                 _controllerMovementScript.P_isLockedBack = false;
-                print("er is contact achter false");
+                print("er is geen contact achter");
             }
-            
+
 
         }
     }
