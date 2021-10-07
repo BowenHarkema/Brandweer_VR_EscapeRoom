@@ -49,12 +49,12 @@ public class Physics_button : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Hands")
+        if (other.tag == "Hands" && !handLeaveEnter)
         {
             for (int i = 0; i < distances.Count; i++)
                 if (distances[i] >= minDistance)
                 {
-                    GetComponent<Rigidbody>().AddForce(0, -10, 0);
+                    GetComponent<Rigidbody>().AddForce(0, -5, 0);
                     handLeaveEnter = true;
                 }
         }
@@ -64,7 +64,7 @@ public class Physics_button : MonoBehaviour
     {
         if (other.tag == "Hands" && handLeaveEnter)
         {
-            GetComponent<Rigidbody>().AddForce(0, -10, 0);
+            GetComponent<Rigidbody>().AddForce(0, -5, 0);
         }
     }
 
