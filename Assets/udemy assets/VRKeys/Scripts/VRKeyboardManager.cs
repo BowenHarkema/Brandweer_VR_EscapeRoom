@@ -21,6 +21,7 @@ public class VRKeyboardManager : MonoBehaviour
 
 
 	public Vector3 relativePosition = new Vector3(0,1,2);
+	private Vector3 setPosition = new Vector3(-0.1f, 0.1f, 1);
 
 	public TMP_InputField playerNameInputField;
 
@@ -46,7 +47,8 @@ public class VRKeyboardManager : MonoBehaviour
 		keyboard.OnSubmit.AddListener(HandleSubmit);
 		keyboard.OnCancel.AddListener(HandleCancel);
 
-		keyboard.gameObject.transform.position = localVRPlayerCamera.transform.position + relativePosition;
+		//keyboard.gameObject.transform.position = localVRPlayerCamera.transform.position + relativePosition;
+		keyboard.gameObject.transform.position = setPosition;
 		AttachMarrets();
 
 		leftBaseController.GetComponent<XRRayInteractor>().enabled = false;
