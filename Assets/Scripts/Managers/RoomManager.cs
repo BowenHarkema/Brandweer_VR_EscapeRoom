@@ -45,6 +45,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("Main_Ship_Tim");
+        PhotonNetwork.LoadLevel("Main_Ship_Steve");
     }
 }

@@ -28,11 +28,11 @@ public class Plant_pod_script : MonoBehaviour
     public Material Dead_texture;
     public string plantName;
 
-    [Range(1.0f, 0.0f)]
+    [Range(10.0f, 0.0f)]
     public float target_oxygen;
-    [Range(1.0f, 0.0f)]
+    [Range(10.0f, 0.0f)]
     public float target_water;
-    [Range(1.0f, 0.0f)]
+    [Range(10.0f, 0.0f)]
     public float target_nutrient;
 
     public Slider oxygen_current;
@@ -154,9 +154,9 @@ public class Plant_pod_script : MonoBehaviour
 
         if (broken_pod_chance > chance)
         {
-            oxygen_current.value = Random.Range(0.0f, 1.0f);
-            water_current.value = Random.Range(0.0f, 1.0f);
-            nutrient_current.value = Random.Range(0.0f, 1.0f);
+            oxygen_current.value = Random.Range(0.0f, 10.0f);
+            water_current.value = Random.Range(0.0f, 10.0f);
+            nutrient_current.value = Random.Range(0.0f, 10.0f);
             newplant.GetComponent<MeshRenderer>().material = Dead_texture;
             
 
