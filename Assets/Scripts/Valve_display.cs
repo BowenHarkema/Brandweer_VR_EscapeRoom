@@ -32,7 +32,7 @@ public class Valve_display : MonoBehaviour
             if (_isTurnedMinus == true)
             {
                 Wait();
-                nutrient_display.GetComponent<Slider>().value -= 1 * Time.deltaTime;
+                nutrient_display.GetComponent<Slider>().value = nutrient_display.GetComponent<Slider>().value - offset_val * Time.deltaTime;
                 
                 //-= 10 * Time.deltaTime;
 
@@ -47,7 +47,7 @@ public class Valve_display : MonoBehaviour
             if (_isTurnedPlus == true)
             {
                 Wait();
-                nutrient_display.GetComponent<Slider>().value += 1 * Time.deltaTime;
+                nutrient_display.GetComponent<Slider>().value = nutrient_display.GetComponent<Slider>().value + offset_val * Time.deltaTime;
                 
                 //+= 10 * Time.deltaTime;
             }
