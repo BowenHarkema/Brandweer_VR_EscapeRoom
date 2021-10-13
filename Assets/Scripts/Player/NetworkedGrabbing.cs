@@ -8,7 +8,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
 {
     private PhotonView PhotonView;
     private Rigidbody Rigidbody;
-    public bool isheld = false;
+    public bool P_isheld = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -23,7 +23,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     void Update()
     {
         if(gameObject.tag != "Lever") { 
-        if (isheld)
+        if (P_isheld)
         {
             Rigidbody.isKinematic = true;
             gameObject.layer = 12;
@@ -72,12 +72,12 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     [PunRPC]
     public void StartNetworkedGrabbing()
     {
-        isheld = true;
+        P_isheld = true;
     }
 
     [PunRPC]
     public void StopNetworkedGrabbing()
     {
-        isheld = false;
+        P_isheld = false;
     }
 }
