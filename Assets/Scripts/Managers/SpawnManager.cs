@@ -25,9 +25,10 @@ public class SpawnManager : MonoBehaviour
             {
                 canvas.worldCamera = PlayerCam;
             }
-        player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount()].transform.position,Quaternion.identity);
+        player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[0].transform.position,Quaternion.identity);
+            //[CheckPlayerCount()
         }
-      EscapeRoomManager.GetComponent<EscapeRoomManager>().TimeDisplays.Add(player.gameObject.transform.Find("Avatar5").Find("HandL").Find("Watch").Find("Canvas").Find("time display").GetComponent<TextMeshProUGUI>());
+        EscapeRoomManager.GetComponent<EscapeRoomManager>().TimeDisplays.Add(player.gameObject.transform.Find("Avatar5").Find("HandL").Find("Watch").Find("Canvas").Find("time display").GetComponent<TextMeshProUGUI>());
     }
 
     // Update is called once per frame
