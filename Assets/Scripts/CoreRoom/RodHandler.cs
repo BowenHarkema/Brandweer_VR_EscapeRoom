@@ -14,7 +14,7 @@ public class RodHandler : MonoBehaviour
     [SerializeField] private string currentSequence;
 
     public UnityEvent WrongSeq;
-    // Start is called before the first frame update
+    
     private void Start()
     {
         rightSequence = "112131";
