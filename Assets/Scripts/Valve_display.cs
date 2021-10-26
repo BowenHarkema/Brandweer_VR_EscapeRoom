@@ -7,33 +7,28 @@ using UnityEngine;
 public class Valve_display : MonoBehaviour
 {
     public Slider nutrient_display;
-    public GameObject valve;
-    public TextMeshProUGUI precentageNumber;
-    public float offset_val;
+    //public GameObject valve;
+    public TextMeshProUGUI percentageNumber;
+    //public float offset_val;
+
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        precentageNumber.text = System.Math.Round((100 * nutrient_display.value)).ToString();
-        if(valve.transform.rotation.eulerAngles.z > 10 && valve.transform.rotation.eulerAngles.z < 180) {
-            subtract(); 
-        }
-        if(valve.transform.rotation.eulerAngles.z < 350 && valve.transform.rotation.eulerAngles.z > 180)
-        {
-            add();
-        }
+        percentageNumber.text = nutrient_display.value.ToString();
     }
     public void add()
     {
-        nutrient_display.GetComponent<Slider>().value = nutrient_display.GetComponent<Slider>().value + offset_val;
+        int _percentageNumber = int.Parse(percentageNumber.text);
+        nutrient_display.GetComponent<Slider>().value = _percentageNumber != 100 ? (_percentageNumber + 10) : _percentageNumber;
     }
     public void subtract()
     {
-        nutrient_display.GetComponent<Slider>().value = nutrient_display.GetComponent<Slider>().value - offset_val;
+        int _percentageNumber = int.Parse(percentageNumber.text);
+        nutrient_display.GetComponent<Slider>().value = _percentageNumber != 0 ? (_percentageNumber - 10) : _percentageNumber;
     }
 }

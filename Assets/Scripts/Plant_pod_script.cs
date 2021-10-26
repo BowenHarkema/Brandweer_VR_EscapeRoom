@@ -28,26 +28,20 @@ public class Plant_pod_script : MonoBehaviour
     public Material Dead_texture;
     public string plantName;
 
-    [Range(1.0f, 0.0f)]
-    public float target_oxygen;
-    [Range(1.0f, 0.0f)]
-    public float target_water;
-    [Range(1.0f, 0.0f)]
-    public float target_nutrient;
+    public int target_oxygen;
+    public int target_water;
+    public int target_temperature;
 
     public Slider oxygen_current;
     public Slider water_current;
-    public Slider nutrient_current;
+    public Slider temperature_current;
 
     public bool oxygen;
     public bool water;
-    public bool nutrient;
-
-    public bool onfire;
+    public bool temperature;
 
     public bool Nutrients_balanced;
 
-    [Range(0, 100)]
     public int broken_pod_chance;
 
     public GameObject plant_placeholder;
@@ -65,78 +59,16 @@ public class Plant_pod_script : MonoBehaviour
     void Update()
     {
 
-        /*Nutrient balance checking
-         * this part of code checks if the nutrients are correctly balanced
-         */
-        //oxygen
-        if ((oxygen_current.value ) > (target_oxygen - 0.05))
-        {
-            if ((oxygen_current.value ) < (target_oxygen + 0.05))
-            {
-                oxygen = true;
-            }
-            else
-            {
-                oxygen = false;
-            }
-        }
-        else
-        {
-            oxygen = false;
-        }
-        //water
-        if ((water_current.value ) > (target_water - 0.05))
-        {
-            if ((water_current.value ) < (target_water + 0.05))
-            {
-                water = true;
-            }
-            else
-            {
-                water = false;
-            }
-        }
-        else
-        {
-            water = false;
-        }
-        //nutrients
+        //Checks if nutrient values match their target
+        oxygen = oxygen_current.value == target_oxygen ? true : false;
+        water = water_current.value == target_water ? true : false;
+        temperature = temperature_current.value == target_temperature ? true : false;
 
-        if ((nutrient_current.value ) > (target_nutrient - 0.05))
-        {
-            if ((nutrient_current.value ) < (target_nutrient + 0.05))
-            {
-                nutrient = true;
-            }
-            else
-            {
-                nutrient = false;
-            }
-        }
-        else
-        {
-            nutrient = false;
-        }
+        //check if plant is balanced
+        Nutrients_balanced = temperature && water && oxygen ? true : false;
 
-        if (nutrient && water && oxygen)
-        {
-            Nutrients_balanced = true;
-            plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Alive_texture;
-        }
-        else
-        {
-            Nutrients_balanced = false;
-            plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Dead_texture;
-        }
-
-        if (onfire)
-        {
-            fire_placeholder.SetActive(true);
-        }
-        else
-        {
-            fire_placeholder.SetActive(false);
-        }
+        //sets alive or dead texture if the nutrients are balanced
+        plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Nutrients_balanced == true ? Alive_texture : Dead_texture;
 
     }
 //Handles the first spawning of the plant, aswell as chance calculation if its broken
@@ -147,22 +79,20 @@ public class Plant_pod_script : MonoBehaviour
         newplant.transform.localPosition = new Vector3(0, 0, 0);
         newplant.transform.parent = plant_placeholder.transform;
 
-
         barcode.GetComponent<Barcode>().Code_value = plantName;
 
         int chance = Random.Range(0, 100);
-
         if (broken_pod_chance > chance)
         {
-            oxygen_current.value = Random.Range(0.0f, 1.0f);
-            water_current.value = Random.Range(0.0f, 1.0f);
-            nutrient_current.value = Random.Range(0.0f, 1.0f);
+            oxygen_current.value = Mathf.Floor(Random.Range(0, 100) / 10) * 10;
+            water_current.value = Mathf.Floor(Random.Range(0, 100) / 10) * 10;
+            temperature_current.value = Mathf.Floor(Random.Range(0, 100) / 10) * 10;
             newplant.GetComponent<MeshRenderer>().material = Dead_texture;
             
 
             if (Random.Range(0, 100) < 25)
             {
-                onfire = true;
+                fire_placeholder.SetActive(true);
             }
 
         }
@@ -170,7 +100,8 @@ public class Plant_pod_script : MonoBehaviour
         {
             oxygen_current.value = target_oxygen;
             water_current.value = target_water;
-            nutrient_current.value = target_nutrient;
+            temperature_current.value = target_temperature;
+            fire_placeholder.SetActive(false);
         }
 
     }
