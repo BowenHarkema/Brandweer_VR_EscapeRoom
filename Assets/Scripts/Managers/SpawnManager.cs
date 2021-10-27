@@ -30,11 +30,6 @@ public class SpawnManager : MonoBehaviour
       EscapeRoomManager.GetComponent<EscapeRoomManager>().TimeDisplays.Add(player.gameObject.transform.Find("Avatar5").Find("HandL").Find("Watch").Find("Canvas").Find("time display").GetComponent<TextMeshProUGUI>());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private int CheckPlayerCount()
     {
         return PhotonNetwork.CountOfPlayers;

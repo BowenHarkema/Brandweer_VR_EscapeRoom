@@ -28,8 +28,8 @@ public class Plant_pods_controller : MonoBehaviour
             pod_Script.target_temperature = Plant_DB.PlantPorperties[selectionNumber].temperature;
             pod_Script.spawnPlant();
         }
-
     }
+
     public int getBrokenPods()
     {
         int pods = 0;
@@ -42,20 +42,5 @@ public class Plant_pods_controller : MonoBehaviour
         }
         return pods;
     }
-    public int getWorkingPods()
-    {
-        int pods = 0;
-        foreach (Plant_pod_script pod_Script in podscripts)
-        {
-            if (pod_Script.Nutrients_balanced == true)
-            {
-                pods++;
-            }
-        }
-        return pods;
-    }
-
-
-
 }
 

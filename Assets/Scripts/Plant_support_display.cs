@@ -13,25 +13,19 @@ public class Plant_support_display : MonoBehaviour
     void Update()
     {
 
-        int workingpods = plant_Pods_Controller.getWorkingPods();
         int brokenpods = plant_Pods_Controller.getBrokenPods();
 
-        string goodpodstext = "";
-        string badpodstext = "";
-        
-        
+        goodpods.text = "";
+        badpods.text = "";        
 
-        for (int i = 0; i < workingpods + 1; i++)
+        for (int i = 0; i < 6 - brokenpods + 1; i++)
         {
-            goodpodstext += "█ ";
-
+            goodpods.text += "█ ";
         }
+
         for (int i = 0; i < brokenpods + 1; i++)
         {
-            badpodstext += "█ ";
+            badpods.text += "█ ";
         }
-
-        goodpods.text = goodpodstext;
-        badpods.text = badpodstext;
     }
 }
