@@ -12,6 +12,7 @@ TagManager:
   - Wall
   - RodCollision
   - Rod
+  - ButtonBase
   layers:
   - Default
   - TransparentFX

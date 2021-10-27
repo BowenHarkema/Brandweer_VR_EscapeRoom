@@ -44,12 +44,7 @@ public class CoreRodController : MonoBehaviour
             Pressed();
            
         }
-
-        if (isPressed && GetValue() - threshold <= 0)
-        {         
-            //Released();
-        }
-        
+       
     }
 
     private float GetValue()
@@ -74,14 +69,6 @@ public class CoreRodController : MonoBehaviour
         print("pressed rod");
     }
 
-   /* public void Released()
-    {
-        isPressed = false;
-       // onReleased.Invoke();     
-        print("release rod");
-    }*/ 
-
-    //Reset positie en reset de originele constraints op rigidbody
     public void ResetPosition()
     {
         transform.position = originalPos;

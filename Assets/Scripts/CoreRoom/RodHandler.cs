@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class RodHandler : MonoBehaviour
 {
-    //[SerializeField] CoreRodController coreRodController;
     [SerializeField] public string rodNameSetter;
     [SerializeField] private List<GameObject> Rods;
     [SerializeField] private GameObject coreSphere;
@@ -17,7 +16,7 @@ public class RodHandler : MonoBehaviour
     
     private void Start()
     {
-        rightSequence = "112131";
+        rightSequence = "1121";
         currentSequence = "";
     }
     private void Update()
@@ -25,7 +24,6 @@ public class RodHandler : MonoBehaviour
         if (rodNameSetter != "")
         {
             coreSphere.GetComponent<Renderer>().sharedMaterial.color = Color.blue;
-            //printonce();
             AddRodToSequence(rodNameSetter);
             
         }
@@ -146,17 +144,6 @@ public class RodHandler : MonoBehaviour
 
 
     }
-    /* 
-     * test of de naam van de rods doorgegeven word
-     * void printonce()
- {
-     if (rodNameSetter != "")
-     {
-         print("je bent hier");
-         print(rodNameSetter);
 
-     }
-
- }*/
 
 }
