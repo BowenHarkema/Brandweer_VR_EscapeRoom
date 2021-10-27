@@ -6,55 +6,58 @@ using UnityEngine.UI;
 public class CoolingPanel : MonoBehaviour
 {
     [SerializeField]
-    public bool testbool, testbool2;
+    public bool _LoweringBool, _HigheringBool;
 
     [SerializeField]
-    private Text GreenRoomText, RedRoomText;
+    private Text _Greenroom_Cooling_Text, _Redroom_Cooling_Text;
 
     [SerializeField]
-    private Cooling_Manager cm;
+    private Cooling_Manager _CM;
 
+    //Subscibe to event system of manager.
     void Start()
     {
         Cooling_Manager.current.OnLowerCoolingGreen += OnLowerCoolingGreen;
         Cooling_Manager.current.OnLowerCoolingRed += OnLowerCoolingRed;
     }
 
+    //function for update data and checking values
     private void Update()
     {
-        if(testbool)
+        if(_LoweringBool)
         {
             Cooling_Manager.current.LowerCoolingGreen();
         }
-        if (testbool2)
+        if (_HigheringBool)
         {
             Cooling_Manager.current.LowerCoolingRed();
         }
 
-        GreenRoomText.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingGreen);
-        RedRoomText.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingRed);
+        _Greenroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingGreen);
+        _Redroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingRed);
     }
 
+    //Functions to set boolean so we dont use event functions
     public void Setlowerbool(bool i)
     {
-        testbool = i;
+        _LoweringBool = i;
     }
-
     public void Sethigherbool(bool i)
     {
-        testbool2 = i;
+        _HigheringBool = i;
     }
 
+    //Function to execute code when event is called
     private void OnLowerCoolingGreen()
     {
         Debug.Log("lowering green, Raising Red");
     }
-
     private void OnLowerCoolingRed()
     {
         Debug.Log("lowering Red, Raising Green");
     }
 
+    //Unsub from event functions when object gets destroyed to avoid NULL pointers
     private void OnDestroy()
     {
         Cooling_Manager.current.OnLowerCoolingGreen -= OnLowerCoolingGreen;

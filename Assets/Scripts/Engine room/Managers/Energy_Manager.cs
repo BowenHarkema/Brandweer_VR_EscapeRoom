@@ -5,52 +5,54 @@ using System;
 
 public class Energy_Manager : MonoBehaviour
 {
-    public static Energy_Manager current;
+    public static Energy_Manager _Current;
 
     [SerializeField]
-    private float EnergyGreen;
-    public float P_EnergyGreen { get { return EnergyGreen; } }
+    private float _EnergyGreen;
+    public float P_EnergyGreen { get { return _EnergyGreen; } }
 
     [SerializeField]
-    private float EnergyRed;
-    public float P_EnergyRed { get { return EnergyRed; } }
+    private float _EnergyRed;
+    public float P_EnergyRed { get { return _EnergyRed; } }
 
     [Header("General settings")]
     [SerializeField]
-    private int MaxEnergy;
-    public int P_MaxEnergy { get { return MaxEnergy; } }
+    private int _MaxEnergy;
+    public int P_MaxEnergy { get { return _MaxEnergy; } }
 
     [SerializeField]
     [Range(0, 50)]
-    private int RaiseLowerStep;
+    private int _RaiseLowerStep;
 
     [Header("Settings for when energy is fixed")]
     [Tooltip("Hiermee kun je de range bepalen waarop de energy fixed moet zijn. Dit moet samen komen tot maxenergy")]
     [SerializeField]
-    private int TargetEnergyRed;
+    private int _TargetEnergyRed;
     [SerializeField]
-    private int TargetEnergyGreen;
+    private int _TargetEnergyGreen;
     [SerializeField]
-    private int DismissRange;
+    private int _DismissRange;
 
-
+    //Set the manager as singleton item.
     private void Awake()
     {
-        current = this;
+        _Current = this;
 
-        EnergyGreen = MaxEnergy / 2;
-        EnergyRed = MaxEnergy / 2;
+        _EnergyGreen = _MaxEnergy / 2;
+        _EnergyRed = _MaxEnergy / 2;
     }
 
+    //Fixed update to check data and fix items.
     private void FixedUpdate()
     {
-        if (EnergyGreen >= TargetEnergyGreen - DismissRange && EnergyGreen <= TargetEnergyGreen + DismissRange
-            && EnergyRed >= TargetEnergyRed - DismissRange && EnergyRed <= TargetEnergyRed + DismissRange)
+        if (_EnergyGreen >= _TargetEnergyGreen - _DismissRange && _EnergyGreen <= _TargetEnergyGreen + _DismissRange
+            && _EnergyRed >= _TargetEnergyRed - _DismissRange && _EnergyRed <= _TargetEnergyRed + _DismissRange)
         {
             Debug.Log("Energy Fixed");
         }
     }
 
+    //event and function for manager.
     public event Action OnLowerEnergyGreen;
     public void LowerEnergyGreen()
     {
@@ -58,72 +60,73 @@ public class Energy_Manager : MonoBehaviour
         {
             OnLowerEnergyGreen();
 
-            if (EnergyGreen >= 0 && EnergyGreen <= MaxEnergy)
+            if (_EnergyGreen >= 0 && _EnergyGreen <= _MaxEnergy)
             {
-                EnergyGreen -= RaiseLowerStep * Time.deltaTime;
+                _EnergyGreen -= _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (EnergyRed >= 0 && EnergyRed <= MaxEnergy)
+            if (_EnergyRed >= 0 && _EnergyRed <= _MaxEnergy)
             {
-                EnergyRed += RaiseLowerStep * Time.deltaTime;
+                _EnergyRed += _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (EnergyGreen <= 0)
+            if (_EnergyGreen <= 0)
             {
-                EnergyGreen = 0.1f;
+                _EnergyGreen = 0.1f;
             }
 
-            if (EnergyGreen >= MaxEnergy)
+            if (_EnergyGreen >= _MaxEnergy)
             {
-                EnergyGreen = MaxEnergy - 0.1f;
+                _EnergyGreen = _MaxEnergy - 0.1f;
             }
 
-            if (EnergyRed <= 0)
+            if (_EnergyRed <= 0)
             {
-                EnergyRed = 0.1f;
+                _EnergyRed = 0.1f;
             }
 
-            if (EnergyRed >= MaxEnergy)
+            if (_EnergyRed >= _MaxEnergy)
             {
-                EnergyRed = MaxEnergy - 0.1f;
+                _EnergyRed = _MaxEnergy - 0.1f;
             }
         }
     }
 
+    //event and function for manager.
     public event Action OnLowerEnergyRed;
     public void LowerEnergyRed()
     {
         if (OnLowerEnergyRed != null)
         {
             OnLowerEnergyRed();
-            if (EnergyGreen >= 0 && EnergyGreen <= MaxEnergy)
+            if (_EnergyGreen >= 0 && _EnergyGreen <= _MaxEnergy)
             {
-                EnergyGreen += RaiseLowerStep * Time.deltaTime;
+                _EnergyGreen += _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (EnergyRed >= 0 && EnergyRed <= MaxEnergy)
+            if (_EnergyRed >= 0 && _EnergyRed <= _MaxEnergy)
             {
-                EnergyRed -= RaiseLowerStep * Time.deltaTime;
+                _EnergyRed -= _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (EnergyGreen <= 0)
+            if (_EnergyGreen <= 0)
             {
-                EnergyGreen = 0.1f;
+                _EnergyGreen = 0.1f;
             }
 
-            if (EnergyGreen >= MaxEnergy)
+            if (_EnergyGreen >= _MaxEnergy)
             {
-                EnergyGreen = MaxEnergy - 0.1f;
+                _EnergyGreen = _MaxEnergy - 0.1f;
             }
 
-            if (EnergyRed <= 0)
+            if (_EnergyRed <= 0)
             {
-                EnergyRed = 0.1f;
+                _EnergyRed = 0.1f;
             }
 
-            if (EnergyRed >= MaxEnergy)
+            if (_EnergyRed >= _MaxEnergy)
             {
-                EnergyRed = MaxEnergy - 0.1f;
+                _EnergyRed = _MaxEnergy - 0.1f;
             }
         }
     }

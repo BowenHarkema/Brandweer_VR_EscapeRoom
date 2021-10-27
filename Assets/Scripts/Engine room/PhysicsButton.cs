@@ -18,6 +18,9 @@ public class PhysicsButton : MonoBehaviour
     private bool IsPressed = false;
 
     [SerializeField]
+    private bool _IsAlreadyPressed = false, _IsMainEngine = false; 
+
+    [SerializeField]
     private Vector3 StartPos;
 
     [SerializeField]
@@ -55,13 +58,26 @@ public class PhysicsButton : MonoBehaviour
 
     private void Pressed()
     {
-        IsPressed = true;
-        OnPressed.Invoke();
+        if(_IsMainEngine)
+        {
+            if(!_IsAlreadyPressed)
+            {
+                IsPressed = true;
+                _IsAlreadyPressed = true;
+                OnPressed.Invoke();
+            }
+        }
+        else
+        {
+            IsPressed = true;
+            OnPressed.Invoke();
+        }
     }
 
     private void Released()
     {
         IsPressed = false;
+        _IsAlreadyPressed = false;
         OnReleased.Invoke();
     }
 }

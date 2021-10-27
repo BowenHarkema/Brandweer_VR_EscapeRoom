@@ -8,51 +8,53 @@ public class Cooling_Manager : MonoBehaviour
     public static Cooling_Manager current;
 
     [SerializeField]
-    private float CoolingGreen;
-    public float P_CoolingGreen { get { return CoolingGreen; } }
+    private float _CoolingGreen;
+    public float P_CoolingGreen { get { return _CoolingGreen; } }
 
     [SerializeField]
-    private float CoolingRed;
-    public float P_CoolingRed { get { return CoolingRed; } }
+    private float _CoolingRed;
+    public float P_CoolingRed { get { return _CoolingRed; } }
 
     [Header("General settings")]
     [SerializeField]
-    private int MaxCooling;
-    public int P_MaxCooling { get { return MaxCooling; } }
+    private int _MaxCooling;
+    public int P_MaxCooling { get { return _MaxCooling; } }
 
     [SerializeField] [Range(0,50)]
-    private int RaiseLowerStep;
+    private int _RaiseLowerStep;
 
     [Header("Settings for when cooling is fixed")] [Tooltip("Hiermee kun je de range bepalen waarop de cooling fixed moet zijn. Dit moet samen komen tot maxcooling")]
     [SerializeField]
-    private int TargetCoolingRed;
+    private int _TargetCoolingRed;
     [SerializeField]
-    private int TargetCoolingGreen;
+    private int _TargetCoolingGreen;
     [SerializeField]    
-    private int DismissRange;
+    private int _DismissRange;
 
-
+    //Set the manager as singleton item. and divide target cooling value to half
     private void Awake()
     {
         current = this;
 
-        CoolingGreen = MaxCooling / 2;
-        CoolingRed = MaxCooling / 2;
+        _CoolingGreen = _MaxCooling / 2;
+        _CoolingRed = _MaxCooling / 2;
     }
 
+    //Fixed update to check data and fix items.
     private void FixedUpdate()
     {
-        if(CoolingGreen >= TargetCoolingGreen - DismissRange && CoolingGreen <= TargetCoolingGreen + DismissRange 
-            && CoolingRed >= TargetCoolingRed - DismissRange && CoolingRed <= TargetCoolingRed + DismissRange )
+        if(_CoolingGreen >= _TargetCoolingGreen - _DismissRange && _CoolingGreen <= _TargetCoolingGreen + _DismissRange 
+            && _CoolingRed >= _TargetCoolingRed - _DismissRange && _CoolingRed <= _TargetCoolingRed + _DismissRange )
         {
             Debug.Log("Cooling Fixed");
         }
 
-        Mathf.Clamp(CoolingGreen, 0.1f, MaxCooling);
-        Mathf.Clamp(CoolingRed, 0.1f, MaxCooling);
+        Mathf.Clamp(_CoolingGreen, 0.1f, _MaxCooling);
+        Mathf.Clamp(_CoolingRed, 0.1f, _MaxCooling);
 
     }
 
+    //event and function for manager.
     public event Action OnLowerCoolingGreen;
     public void LowerCoolingGreen()
     {
@@ -60,57 +62,58 @@ public class Cooling_Manager : MonoBehaviour
         {
             OnLowerCoolingGreen();
 
-            if(CoolingGreen >= 0 && CoolingGreen <= MaxCooling)
+            if(_CoolingGreen >= 0 && _CoolingGreen <= _MaxCooling)
             {
-                CoolingGreen -= RaiseLowerStep * Time.deltaTime;
+                _CoolingGreen -= _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (CoolingRed >= 0 && CoolingRed <= MaxCooling)
+            if (_CoolingRed >= 0 && _CoolingRed <= _MaxCooling)
             {
-                CoolingRed += RaiseLowerStep * Time.deltaTime;
+                _CoolingRed += _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (CoolingGreen <= 0) {
-                CoolingGreen = 0.1f; }
+            if (_CoolingGreen <= 0) {
+                _CoolingGreen = 0.1f; }
 
-            if (CoolingGreen >= MaxCooling) {
-                CoolingGreen = MaxCooling - 0.1f; }
+            if (_CoolingGreen >= _MaxCooling) {
+                _CoolingGreen = _MaxCooling - 0.1f; }
 
-            if (CoolingRed <= 0) {
-                CoolingRed = 0.1f; }
+            if (_CoolingRed <= 0) {
+                _CoolingRed = 0.1f; }
 
-            if (CoolingRed >= MaxCooling) {
-                CoolingRed = MaxCooling - 0.1f; }
+            if (_CoolingRed >= _MaxCooling) {
+                _CoolingRed = _MaxCooling - 0.1f; }
         }
     }
 
+    //event and function for manager.
     public event Action OnLowerCoolingRed;
     public void LowerCoolingRed()
     {
         if (OnLowerCoolingRed != null)
         {
             OnLowerCoolingRed();
-            if (CoolingGreen >= 0 && CoolingGreen <= MaxCooling)
+            if (_CoolingGreen >= 0 && _CoolingGreen <= _MaxCooling)
             {
-                CoolingGreen += RaiseLowerStep * Time.deltaTime;
+                _CoolingGreen += _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (CoolingRed >= 0 && CoolingRed <= MaxCooling)
+            if (_CoolingRed >= 0 && _CoolingRed <= _MaxCooling)
             {
-                CoolingRed -= RaiseLowerStep * Time.deltaTime;
+                _CoolingRed -= _RaiseLowerStep * Time.deltaTime;
             }
 
-            if (CoolingGreen <= 0) {
-                CoolingGreen = 0.1f; }
+            if (_CoolingGreen <= 0) {
+                _CoolingGreen = 0.1f; }
 
-            if (CoolingGreen >= MaxCooling) {
-                CoolingGreen = MaxCooling - 0.1f; }
+            if (_CoolingGreen >= _MaxCooling) {
+                _CoolingGreen = _MaxCooling - 0.1f; }
 
-            if (CoolingRed <= 0) {
-                CoolingRed = 0.1f; }
+            if (_CoolingRed <= 0) {
+                _CoolingRed = 0.1f; }
 
-            if (CoolingRed >= MaxCooling) {
-                CoolingRed = MaxCooling - 0.1f; }
+            if (_CoolingRed >= _MaxCooling) {
+                _CoolingRed = _MaxCooling - 0.1f; }
         }
     }
 }
