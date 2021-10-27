@@ -27,6 +27,7 @@ public class Plant_pod_script : MonoBehaviour
     public Material Alive_texture;
     public Material Dead_texture;
     public string plantName;
+    public int podNumber;
 
     public int target_oxygen;
     public int target_water;
@@ -41,19 +42,12 @@ public class Plant_pod_script : MonoBehaviour
     public bool temperature;
 
     public bool Nutrients_balanced;
-
-    public int broken_pod_chance;
+    public bool plantIsBroken;
 
     public GameObject plant_placeholder;
     public GameObject fire_placeholder;
     public GameObject barcode;
     private GameObject newplant;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -71,7 +65,8 @@ public class Plant_pod_script : MonoBehaviour
         plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Nutrients_balanced == true ? Alive_texture : Dead_texture;
 
     }
-//Handles the first spawning of the plant, aswell as chance calculation if its broken
+
+    //Handles the first spawning of the plant, aswell as chance calculation if its broken
     public void spawnPlant() 
     {
       //  GameObject.Destroy(plant_placeholder.transform.GetChild(0).gameObject);
@@ -81,20 +76,48 @@ public class Plant_pod_script : MonoBehaviour
 
         barcode.GetComponent<Barcode>().Code_value = plantName;
 
-        int chance = Random.Range(0, 100);
-        if (broken_pod_chance > chance)
+        if (plantIsBroken)
         {
-            oxygen_current.value = Mathf.Floor(Random.Range(0, 100) / 10) * 10;
-            water_current.value = Mathf.Floor(Random.Range(0, 100) / 10) * 10;
-            temperature_current.value = Mathf.Floor(Random.Range(0, 100) / 10) * 10;
             newplant.GetComponent<MeshRenderer>().material = Dead_texture;
-            
-
-            if (Random.Range(0, 100) < 25)
+            switch (podNumber)
             {
-                fire_placeholder.SetActive(true);
+                case 1:
+                    oxygen_current.value = 10;
+                    water_current.value = 70;
+                    temperature_current.value = 50;
+                    fire_placeholder.SetActive(false);
+                    break;
+                case 2:
+                    oxygen_current.value = 10;
+                    water_current.value = 20;
+                    temperature_current.value = 20;
+                    fire_placeholder.SetActive(true);
+                    break;
+                case 3:
+                    oxygen_current.value = 80;
+                    water_current.value = 30;
+                    temperature_current.value = 0;
+                    fire_placeholder.SetActive(false);
+                    break;
+                case 4:
+                    oxygen_current.value = 10;
+                    water_current.value = 30;
+                    temperature_current.value = 50;
+                    fire_placeholder.SetActive(true);
+                    break;
+                case 5:
+                    oxygen_current.value = 100;
+                    water_current.value = 30;
+                    temperature_current.value = 10;
+                    fire_placeholder.SetActive(false);
+                    break;
+                case 6:
+                    oxygen_current.value = 60;
+                    water_current.value = 70;
+                    temperature_current.value = 50;
+                    fire_placeholder.SetActive(true);
+                    break;
             }
-
         }
         else
         {

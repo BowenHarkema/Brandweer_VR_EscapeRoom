@@ -8,11 +8,6 @@ public class Plant_support_display : MonoBehaviour
     public TextMeshProUGUI goodpods;
     public TextMeshProUGUI badpods;
     public Plant_pods_controller plant_Pods_Controller;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()

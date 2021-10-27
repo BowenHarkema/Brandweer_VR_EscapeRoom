@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using System.Collections.Generic;
-using TMPro;
-using System.Reflection;
-using System.Text;
 
 public class Physics_button : MonoBehaviour
 {

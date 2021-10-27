@@ -28,15 +28,6 @@ public class Button_script : MonoBehaviour
             onTrigger.Invoke();
             Triggered = true;
         }
-
-        if (Triggered)
-        {
-            ButtonCooldown -= Time.deltaTime;
-            if(ButtonCooldown < 0)
-            {
-                Triggered = false;
-                ButtonCooldown = 3.0f;
-            }
-        }
+        Triggered = false;
     }
 }
