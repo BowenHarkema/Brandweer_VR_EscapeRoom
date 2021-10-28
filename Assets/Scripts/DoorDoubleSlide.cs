@@ -24,21 +24,18 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     public float openDistance = 2.0f;
 
     //Internal... stuff
-    private float point = 0.0f;
-    private bool opening = false;
+    private float _Point = 0.0f;
+    private bool _Opening = false;
 
    
 
-    //Record initial positions
+    //Record initial door positions
 	void Start () {
-        if (doorL){
+        if (doorL)
             initialDoorL = doorL.localPosition;
-        }
 
-        if (doorR){
-            initialDoorR = doorR.localPosition;
-        }
-         
+        if (doorR)
+            initialDoorR = doorR.localPosition;  
 	}
 
     //Something approaching? open doors
@@ -46,7 +43,7 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     {
         if(other.tag == "Player") {
            gameObject.GetComponent<ShowRooms>().showRoom();
-            opening = true;
+            _Opening = true;
 
         AudioSource audio = GetComponent<AudioSource>();
         audio.Play();
@@ -59,7 +56,7 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     {
         if (other.tag == "Player")
         {
-            opening = false;
+            _Opening = false;
 
             AudioSource audio = GetComponent<AudioSource>();
             audio.Play();
@@ -73,45 +70,22 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     //force opens a door, for instance the reactor doors when all generators are up
     public void forceOpenDoors()
     {
-        opening = true;
+        _Opening = true;
     }
-	
 
     //Open or close doors
 	void Update () {
         // Direction selection
-        if (directionType == Direction.X)
-        {
-            doorDirection = Vector3.right;
-        }
-        else if (directionType == Direction.Y)
-        {
-            doorDirection = Vector3.up;
-        }
-        else if (directionType == Direction.Z)
-        {
-            doorDirection = Vector3.back;
-        }
+        doorDirection = directionType == Direction.X ? Vector3.right : directionType == Direction.Y ? Vector3.up : Vector3.back;
 
-        // If opening
-        if (opening)
-        {
-            point = Mathf.Lerp(point, 1.0f, Time.deltaTime * speed);
-        }
-        else
-        {
-            point = Mathf.Lerp(point, 0.0f, Time.deltaTime * speed);
-        }
+        // If _Opening
+        _Point = _Opening ? Mathf.Lerp(_Point, 1.0f, Time.deltaTime * speed) : Mathf.Lerp(_Point, 0.0f, Time.deltaTime * speed);
 
         // Move doors
         if (doorL)
-        {
-            doorL.localPosition = initialDoorL + (doorDirection * point * openDistance);
-        }
+            doorL.localPosition = initialDoorL + (doorDirection * _Point * openDistance);
 
         if (doorR)
-        {
-            doorR.localPosition = initialDoorR + (-doorDirection * point * openDistance);
-        }
+            doorR.localPosition = initialDoorR + (-doorDirection * _Point * openDistance);
 	}
 }

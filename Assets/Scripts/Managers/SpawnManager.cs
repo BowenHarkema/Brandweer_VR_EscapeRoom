@@ -10,8 +10,6 @@ public class SpawnManager : MonoBehaviour
     public GameObject PlayerObject;
     public Camera PlayerCam;
 
-    public GameObject EscapeRoomManager;
-
     public List<GameObject> Spawnpos;
     public List<Canvas> canvas;
 
@@ -27,7 +25,6 @@ public class SpawnManager : MonoBehaviour
             }
         player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount()].transform.position,Quaternion.identity);
         }
-      EscapeRoomManager.GetComponent<EscapeRoomManager>().TimeDisplays.Add(player.gameObject.transform.Find("Avatar5").Find("HandL").Find("Watch").Find("Canvas").Find("time display").GetComponent<TextMeshProUGUI>());
     }
 
     private int CheckPlayerCount()

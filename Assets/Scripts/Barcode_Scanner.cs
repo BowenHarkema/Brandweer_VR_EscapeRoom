@@ -9,12 +9,7 @@ public class Barcode_Scanner : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("collision" + collision.gameObject.tag);
         if (collision.gameObject.tag == "barcode")
-        {
-            Debug.Log("barcode collision");
             Code_text.text = collision.gameObject.GetComponent<Barcode>().Code_value;
-        }
     }
-
 }

@@ -16,6 +16,7 @@ public class ControllerMovementScript : MonoBehaviour
 
     private void Update()
     {
+        //checks if one of the sides of the cart is collided and moves cart if it isnt
         if (_isLockedBack)
         {
             moveB = false;
@@ -34,16 +35,15 @@ public class ControllerMovementScript : MonoBehaviour
             transform.Rotate(0, 20f * Time.deltaTime, 0);
     }
 
+    //Functions called from unity events on the storage buttons, when pressed sets boolean to true and moves the cart in pressed direction
     public void boolSetB(bool b)
     { 
         moveB = b;
     }
-
     public void boolSetF(bool b)
     {
         moveF = b;
     }
-
     public void boolSetRotateL(bool b)
     {
         rotateL = b;
@@ -52,6 +52,4 @@ public class ControllerMovementScript : MonoBehaviour
     {
         rotateR = b;
     }
-
-
 }
