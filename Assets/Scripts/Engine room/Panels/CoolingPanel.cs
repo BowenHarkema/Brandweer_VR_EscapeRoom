@@ -34,8 +34,15 @@ public class CoolingPanel : MonoBehaviour
             Cooling_Manager.current.LowerCoolingRed();
         }
 
-        _Greenroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingGreen);
-        _Redroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingRed);
+        if(_Greenroom_Cooling_Text.enabled)
+        {
+            _Greenroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingGreen);
+        }
+
+        if(_Redroom_Cooling_Text.enabled)
+        {
+            _Redroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingRed);
+        }
     }
 
     //Functions to set boolean so we dont use event functions
