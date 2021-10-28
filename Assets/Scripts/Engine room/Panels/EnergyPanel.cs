@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class EnergyPanel : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EnergyPanel : MonoBehaviour
     private bool _LowerinBool, _HigheringBool;
 
     [SerializeField]
-    private Text _Greenroom_Energy_Text, _Redroom_Energy_Text;
+    private TextMeshProUGUI _Greenroom_Energy_Text, _Redroom_Energy_Text;
 
     [SerializeField]
     private Energy_Manager _EM;

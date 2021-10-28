@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainEnginePanel : MonoBehaviour
 {
-
     [SerializeField]
-    private bool _ABool, _BBool, _CBool, _DBool;
-
-    [SerializeField]
-    private Text _Redroom_Sequence_Text, _Greenroom_Sequence_Text;
+    private TextMeshProUGUI _Redroom_Sequence_Text, _Greenroom_Sequence_Text;
 
     [SerializeField]
     private StartSystemManager _SM;
@@ -27,7 +24,7 @@ public class MainEnginePanel : MonoBehaviour
     //function for update data and checking values
     private void Update()
     {
-        string temp = "Sequence: " + StartSystemManager._Current.P_Current_sequence_Order.ToString();
+        string temp = "Sequence: " + string.Join(",", _SM.P_Current_sequence_Order);
         _Redroom_Sequence_Text.text = temp;
         _Greenroom_Sequence_Text.text = temp;
     }

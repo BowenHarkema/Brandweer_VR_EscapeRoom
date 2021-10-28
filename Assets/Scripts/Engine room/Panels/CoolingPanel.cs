@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CoolingPanel : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class CoolingPanel : MonoBehaviour
     public bool _LoweringBool, _HigheringBool;
 
     [SerializeField]
-    private Text _Greenroom_Cooling_Text, _Redroom_Cooling_Text;
+    private TextMeshProUGUI _Greenroom_Cooling_Text, _Redroom_Cooling_Text;
 
     [SerializeField]
     private Cooling_Manager _CM;
