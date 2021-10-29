@@ -27,7 +27,6 @@ public class GeneratorSync : MonoBehaviour
         if (_generatorUpCount < 5)
         {
             _generatorUpCount++;
-
             generatorUpText.text = $"Werkende generators: {_generatorUpCount.ToString()}/5";
         }
     }
