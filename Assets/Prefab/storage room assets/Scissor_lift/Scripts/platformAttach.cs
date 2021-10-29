@@ -5,13 +5,14 @@ using UnityEngine;
 public class platformAttach : MonoBehaviour
 {
 
-    public GameObject vrPlayer;
+    
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
         {
-            vrPlayer.transform.parent = transform;
+            other.transform.parent.transform.parent = transform;
+            //other.transform.parent = transform;
             print("ben ik er op");
         }
     }
@@ -20,7 +21,8 @@ public class platformAttach : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            vrPlayer.transform.parent = null;
+            other.transform.parent.transform.parent = null;
+            //other.transform.parent = null;
             print("ben ik er van af");
         }
     }

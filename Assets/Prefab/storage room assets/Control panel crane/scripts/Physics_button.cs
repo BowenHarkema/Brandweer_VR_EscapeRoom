@@ -14,9 +14,10 @@ public class Physics_button : MonoBehaviour
     private bool _isPressed;
     private Vector3 _startPos;
     private ConfigurableJoint _joint;
-    private bool handLeaveEnter = false;
 
     public UnityEvent onPressed, onReleased;
+
+    [SerializeField] private ButtonPressed _ButtonPressed;
 
     // Start is called before the first frame update
     void Start()
@@ -49,31 +50,38 @@ public class Physics_button : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Hands")
+        if (other.tag == "Hands" && !_ButtonPressed.P_isButtonPressed)
         {
             for (int i = 0; i < distances.Count; i++)
                 if (distances[i] >= minDistance)
                 {
-                    GetComponent<Rigidbody>().AddForce(0, -10, 0);
-                    handLeaveEnter = true;
+                    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+                    GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+                    GetComponent<Rigidbody>().AddForce(0, -3, 0);
+                    _ButtonPressed.P_isButtonPressed = true;
                 }
+        }
+        else if (other.tag == "Hands" && _ButtonPressed.P_isButtonPressed)
+        {
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.tag == "Hands" && handLeaveEnter)
+        if (other.tag == "Hands")
         {
-            GetComponent<Rigidbody>().AddForce(0, -10, 0);
+            GetComponent<Rigidbody>().AddForce(0, -3, 0);
+            _ButtonPressed.P_isButtonPressed = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-       if(other.tag == "Hands")
+        if (other.tag == "Hands")
         {
-            handLeaveEnter = false;
-        } 
+            _ButtonPressed.P_isButtonPressed = false;
+        }
     }
 
 

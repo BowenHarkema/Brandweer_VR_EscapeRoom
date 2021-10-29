@@ -8,6 +8,8 @@ TagManager:
   - Lever
   - powercell
   - barcode
+  - Shelf
+  - Wall
   layers:
   - Default
   - TransparentFX

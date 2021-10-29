@@ -12,10 +12,11 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     // Start is called before the first frame update
     private void Awake()
     {
-        PhotonView = GetComponent<PhotonView>();
+        //PhotonView = GetComponent<PhotonView>();
     }
     void Start()
     {
+        PhotonView = GetComponent<PhotonView>();
         Rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -42,7 +43,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     public void OnSelectEnter()
     {
         TransferOwnership();
-        photonView.RPC("StartNetworkedGrabbing",RpcTarget.AllBuffered);
+        photonView.RPC("StartNetworkedGrabbing", RpcTarget.All);
         if(photonView.Owner == PhotonNetwork.LocalPlayer)
         {
             Debug.Log("object is already mine");
@@ -55,7 +56,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     public void OnSelectExit()
     {
         TransferOwnership();
-        photonView.RPC("StopNetworkedGrabbing", RpcTarget.AllBuffered);
+        photonView.RPC("StopNetworkedGrabbing", RpcTarget.All);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)

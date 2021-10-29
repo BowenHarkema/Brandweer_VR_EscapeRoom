@@ -8,35 +8,18 @@ public class Button_script : MonoBehaviour
 
     public float TargetValue;
     public UnityEvent onTrigger;
-    private float ButtonCooldown = 3.0f;
 
-    private bool Triggered;
-    // Start is called before the first frame update
-    void Start()
-    {
-        Triggered = false;
-
-    }
+    private bool _Triggered = false;
 
     // Update is called once per frame
     void Update()
     {
-        
-        if (gameObject.transform.localPosition.y <= TargetValue && !Triggered)
+        //checks if button is pressed then calls unity event
+        if (gameObject.transform.localPosition.y <= TargetValue && !_Triggered)
         {
-            Debug.Log("triggerd");
             onTrigger.Invoke();
-            Triggered = true;
+            _Triggered = true;
         }
-
-        if (Triggered)
-        {
-            ButtonCooldown -= Time.deltaTime;
-            if(ButtonCooldown < 0)
-            {
-                Triggered = false;
-                ButtonCooldown = 3.0f;
-            }
-        }
+        _Triggered = false;
     }
 }

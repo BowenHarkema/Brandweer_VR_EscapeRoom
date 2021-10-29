@@ -18,7 +18,6 @@ public class GeneratorScript : MonoBehaviour
         hatch.GetComponent<HatchScript>().openHatch();
     }
 
-    
     void OnCollisionEnter(Collision collision){
         if(cellsNeeded<=0) return;
 

@@ -7,33 +7,40 @@ using UnityEngine;
 public class Valve_display : MonoBehaviour
 {
     public Slider nutrient_display;
-    public GameObject valve;
-    public TextMeshProUGUI precentageNumber;
-    public float offset_val;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public TextMeshProUGUI percentageNumber;
+    private float _ButtonCooldown = 0.5f;
 
     // Update is called once per frame
     void Update()
     {
-        precentageNumber.text = System.Math.Round((100 * nutrient_display.value)).ToString();
-        if(valve.transform.rotation.eulerAngles.z > 10 && valve.transform.rotation.eulerAngles.z < 180) {
-            subtract(); 
-        }
-        if(valve.transform.rotation.eulerAngles.z < 350 && valve.transform.rotation.eulerAngles.z > 180)
+        percentageNumber.text = nutrient_display.value.ToString();
+    }
+
+    //changes the slider value, parameters are given in add() and substract() , where plus is true and minus is false
+    private void changeSlider(int limitNumber, bool plusOrMinus)
+    {
+        //cooldown makes sure the display value doesn't go to 100 in 1 second but gradually
+        _ButtonCooldown -= Time.deltaTime;
+        if (_ButtonCooldown < 0)
         {
-            add();
+            int _percentageNumber = int.Parse(percentageNumber.text);
+            if(plusOrMinus)
+                nutrient_display.GetComponent<Slider>().value = _percentageNumber != limitNumber ? (_percentageNumber + 10) : _percentageNumber;
+            else
+                nutrient_display.GetComponent<Slider>().value = _percentageNumber != limitNumber ? (_percentageNumber - 10) : _percentageNumber;
+            _ButtonCooldown = 0.5f;
         }
     }
+
+    //These call the change slider function with the first parameter being its max value and bool to check to go up or down
     public void add()
     {
-        nutrient_display.GetComponent<Slider>().value = nutrient_display.GetComponent<Slider>().value + offset_val;
+        changeSlider(100, true);
     }
+
     public void subtract()
     {
-        nutrient_display.GetComponent<Slider>().value = nutrient_display.GetComponent<Slider>().value - offset_val;
+        changeSlider(0, false);
+
     }
 }

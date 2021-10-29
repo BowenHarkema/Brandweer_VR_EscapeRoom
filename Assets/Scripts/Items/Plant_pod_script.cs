@@ -27,150 +27,103 @@ public class Plant_pod_script : MonoBehaviour
     public Material Alive_texture;
     public Material Dead_texture;
     public string plantName;
+    public int podNumber;
 
-    [Range(1.0f, 0.0f)]
-    public float target_oxygen;
-    [Range(1.0f, 0.0f)]
-    public float target_water;
-    [Range(1.0f, 0.0f)]
-    public float target_nutrient;
+    public int target_oxygen;
+    public int target_water;
+    public int target_temperature;
 
     public Slider oxygen_current;
     public Slider water_current;
-    public Slider nutrient_current;
+    public Slider temperature_current;
 
     public bool oxygen;
     public bool water;
-    public bool nutrient;
-
-    public bool onfire;
+    public bool temperature;
 
     public bool Nutrients_balanced;
-
-    [Range(0, 100)]
-    public int broken_pod_chance;
+    public bool plantIsBroken;
 
     public GameObject plant_placeholder;
     public GameObject fire_placeholder;
     public GameObject barcode;
-    private GameObject newplant;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-
-    }
 
     // Update is called once per frame
     void Update()
     {
 
-        /*Nutrient balance checking
-         * this part of code checks if the nutrients are correctly balanced
-         */
-        //oxygen
-        if ((oxygen_current.value ) > (target_oxygen - 0.05))
-        {
-            if ((oxygen_current.value ) < (target_oxygen + 0.05))
-            {
-                oxygen = true;
-            }
-            else
-            {
-                oxygen = false;
-            }
-        }
-        else
-        {
-            oxygen = false;
-        }
-        //water
-        if ((water_current.value ) > (target_water - 0.05))
-        {
-            if ((water_current.value ) < (target_water + 0.05))
-            {
-                water = true;
-            }
-            else
-            {
-                water = false;
-            }
-        }
-        else
-        {
-            water = false;
-        }
-        //nutrients
+        //Checks if nutrient values match their target
+        oxygen = oxygen_current.value == target_oxygen ? true : false;
+        water = water_current.value == target_water ? true : false;
+        temperature = temperature_current.value == target_temperature ? true : false;
 
-        if ((nutrient_current.value ) > (target_nutrient - 0.05))
-        {
-            if ((nutrient_current.value ) < (target_nutrient + 0.05))
-            {
-                nutrient = true;
-            }
-            else
-            {
-                nutrient = false;
-            }
-        }
-        else
-        {
-            nutrient = false;
-        }
+        //check if plant is balanced
+        Nutrients_balanced = temperature && water && oxygen ? true : false;
 
-        if (nutrient && water && oxygen)
-        {
-            Nutrients_balanced = true;
-            plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Alive_texture;
-        }
-        else
-        {
-            Nutrients_balanced = false;
-            plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Dead_texture;
-        }
-
-        if (onfire)
-        {
-            fire_placeholder.SetActive(true);
-        }
-        else
-        {
-            fire_placeholder.SetActive(false);
-        }
+        //sets alive or dead texture if the nutrients are balanced
+        plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Nutrients_balanced == true ? Alive_texture : Dead_texture;
 
     }
-//Handles the first spawning of the plant, aswell as chance calculation if its broken
+
+    //Handles the first spawning of the plant, as well as set values for plants so its values are the same to every player
     public void spawnPlant() 
     {
-      //  GameObject.Destroy(plant_placeholder.transform.GetChild(0).gameObject);
         GameObject newplant = Instantiate(plant_prefabs[Random.Range(0, plant_prefabs.Count)], plant_placeholder.transform);
         newplant.transform.localPosition = new Vector3(0, 0, 0);
         newplant.transform.parent = plant_placeholder.transform;
 
-
         barcode.GetComponent<Barcode>().Code_value = plantName;
 
-        int chance = Random.Range(0, 100);
-
-        if (broken_pod_chance > chance)
+        //checks if plant is broken (bool is set in unity) then sets its nutrients values
+        if (plantIsBroken)
         {
-            oxygen_current.value = Random.Range(0.0f, 1.0f);
-            water_current.value = Random.Range(0.0f, 1.0f);
-            nutrient_current.value = Random.Range(0.0f, 1.0f);
             newplant.GetComponent<MeshRenderer>().material = Dead_texture;
-            
-
-            if (Random.Range(0, 100) < 25)
+            switch (podNumber)
             {
-                onfire = true;
+                case 1:
+                    oxygen_current.value = 10;
+                    water_current.value = 70;
+                    temperature_current.value = 50;
+                    fire_placeholder.SetActive(false);
+                    break;
+                case 2:
+                    oxygen_current.value = 10;
+                    water_current.value = 20;
+                    temperature_current.value = 20;
+                    fire_placeholder.SetActive(true);
+                    break;
+                case 3:
+                    oxygen_current.value = 80;
+                    water_current.value = 30;
+                    temperature_current.value = 0;
+                    fire_placeholder.SetActive(false);
+                    break;
+                case 4:
+                    oxygen_current.value = 10;
+                    water_current.value = 30;
+                    temperature_current.value = 50;
+                    fire_placeholder.SetActive(true);
+                    break;
+                case 5:
+                    oxygen_current.value = 100;
+                    water_current.value = 30;
+                    temperature_current.value = 10;
+                    fire_placeholder.SetActive(false);
+                    break;
+                case 6:
+                    oxygen_current.value = 60;
+                    water_current.value = 70;
+                    temperature_current.value = 50;
+                    fire_placeholder.SetActive(true);
+                    break;
             }
-
         }
         else
         {
             oxygen_current.value = target_oxygen;
             water_current.value = target_water;
-            nutrient_current.value = target_nutrient;
+            temperature_current.value = target_temperature;
+            fire_placeholder.SetActive(false);
         }
 
     }
