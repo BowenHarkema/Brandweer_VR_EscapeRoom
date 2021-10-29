@@ -12,7 +12,7 @@ public class BlinkeyTextScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Blinks the text on screen each second
+        //Blinks the selected text on screen each second
         timer = timer >= 1 ? 0 : timer + Time.deltaTime;
         TextMeshProUGUI.enabled = timer >= 1 ? false : timer >= 0.5 ? true : false;
     }

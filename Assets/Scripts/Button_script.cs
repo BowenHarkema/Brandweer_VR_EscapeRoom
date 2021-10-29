@@ -14,7 +14,7 @@ public class Button_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //checks if button is pressed then calls unity event
         if (gameObject.transform.localPosition.y <= TargetValue && !_Triggered)
         {
             onTrigger.Invoke();

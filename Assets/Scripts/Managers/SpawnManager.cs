@@ -13,20 +13,23 @@ public class SpawnManager : MonoBehaviour
     public List<GameObject> Spawnpos;
     public List<Canvas> canvas;
 
-    private GameObject player;
+    private GameObject _Player;
+
     // Start is called before the first frame update
     void Start()
     {
+        //checks if player is connected to photon and ready then spawns
         if (PhotonNetwork.IsConnectedAndReady)
         {
             foreach (Canvas canvas in canvas)
             {
                 canvas.worldCamera = PlayerCam;
             }
-        player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount()].transform.position,Quaternion.identity);
+        _Player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount()].transform.position,Quaternion.identity);
         }
     }
 
+    //checks amount of players connected to current photon server
     private int CheckPlayerCount()
     {
         return PhotonNetwork.CountOfPlayers;

@@ -12,7 +12,7 @@ public class Plant_support_display : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        //displays the amount of working and broken plantpods 
         int brokenpods = plant_Pods_Controller.getBrokenPods();
 
         goodpods.text = "";

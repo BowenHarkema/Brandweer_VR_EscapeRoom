@@ -47,7 +47,6 @@ public class Plant_pod_script : MonoBehaviour
     public GameObject plant_placeholder;
     public GameObject fire_placeholder;
     public GameObject barcode;
-    private GameObject newplant;
 
     // Update is called once per frame
     void Update()
@@ -66,16 +65,16 @@ public class Plant_pod_script : MonoBehaviour
 
     }
 
-    //Handles the first spawning of the plant, aswell as chance calculation if its broken
+    //Handles the first spawning of the plant, as well as set values for plants so its values are the same to every player
     public void spawnPlant() 
     {
-      //  GameObject.Destroy(plant_placeholder.transform.GetChild(0).gameObject);
         GameObject newplant = Instantiate(plant_prefabs[Random.Range(0, plant_prefabs.Count)], plant_placeholder.transform);
         newplant.transform.localPosition = new Vector3(0, 0, 0);
         newplant.transform.parent = plant_placeholder.transform;
 
         barcode.GetComponent<Barcode>().Code_value = plantName;
 
+        //checks if plant is broken (bool is set in unity) then sets its nutrients values
         if (plantIsBroken)
         {
             newplant.GetComponent<MeshRenderer>().material = Dead_texture;

@@ -30,6 +30,7 @@ public class Plant_pods_controller : MonoBehaviour
         }
     }
 
+    //gets the amount of broken plant pods by checking if nutrients are balanced
     public int getBrokenPods()
     {
         int pods = 0;
