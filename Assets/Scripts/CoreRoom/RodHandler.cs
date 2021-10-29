@@ -8,6 +8,7 @@ public class RodHandler : MonoBehaviour
     [SerializeField] public string rodNameSetter;
     [SerializeField] private List<GameObject> Rods;
     [SerializeField] private GameObject coreSphere;
+    [SerializeField] private ParticleSystem coreSmoke;
 
     [SerializeField] private string rightSequence;
     [SerializeField] private string currentSequence;
@@ -16,14 +17,15 @@ public class RodHandler : MonoBehaviour
     
     private void Start()
     {
-        rightSequence = "1121";
+        rightSequence = "112131";
         currentSequence = "";
     }
     private void Update()
     {
         if (rodNameSetter != "")
         {
-            coreSphere.GetComponent<Renderer>().sharedMaterial.color = Color.blue;
+            coreSphere.GetComponent<Light>().color = Color.blue;
+            coreSmoke.GetComponent<ParticleSystem>().startColor = Color.blue;
             AddRodToSequence(rodNameSetter);
             
         }
@@ -113,7 +115,8 @@ public class RodHandler : MonoBehaviour
         if (currentSequence != rightSequence.Substring(0, currentSequence.Length))
         {
             currentSequence = "";
-            coreSphere.GetComponent<Renderer>().sharedMaterial.color = Color.red;
+            coreSphere.GetComponent<Light>().color = Color.red;
+            coreSmoke.GetComponent<ParticleSystem>().startColor = Color.red;
             wrongSequence();
             print("lekker man nu is alles kapot");
             
@@ -122,7 +125,8 @@ public class RodHandler : MonoBehaviour
         {
             
             currentSequence = "";
-            coreSphere.GetComponent<Renderer>().sharedMaterial.color = Color.green;
+            coreSphere.GetComponent<Light>().color = Color.green;
+            coreSmoke.GetComponent<ParticleSystem>().startColor = Color.green;
             print("core is stabiel");
         }
     }
