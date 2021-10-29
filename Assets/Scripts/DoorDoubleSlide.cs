@@ -12,12 +12,13 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     public Transform doorL = null;
     public Transform doorR = null;
 
-    private Vector3 initialDoorL;
-    private Vector3 initialDoorR;
-    private Vector3 doorDirection;
+    private Vector3 _InitialDoorL;
+    private Vector3 _InitialDoorR;
+    private Vector3 _DoorDirection;
 
+    //DirectionType needs to be set in unity
     public enum Direction { X, Y, Z };
-    public Direction directionType = Direction.Y;
+    public Direction directionType;
 
     //Control Variables
     public float speed = 2.0f;
@@ -27,18 +28,17 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     private float _Point = 0.0f;
     private bool _Opening = false;
 
-   
 
     //Record initial door positions
 	void Start () {
         if (doorL)
-            initialDoorL = doorL.localPosition;
+            _InitialDoorL = doorL.localPosition;
 
         if (doorR)
-            initialDoorR = doorR.localPosition;  
+            _InitialDoorR = doorR.localPosition;  
 	}
 
-    //Something approaching? open doors
+    //Something approaching? open doors if collider is a player
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player") {
@@ -51,7 +51,7 @@ public class DoorDoubleSlide2 : MonoBehaviour {
 
     }
 
-    //Something left? close doors
+    //Something left? close doors if collider is a player
     async void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
@@ -75,17 +75,17 @@ public class DoorDoubleSlide2 : MonoBehaviour {
 
     //Open or close doors
 	void Update () {
-        // Direction selection
-        doorDirection = directionType == Direction.X ? Vector3.right : directionType == Direction.Y ? Vector3.up : Vector3.back;
+        // Direction selection in which the door will open
+        _DoorDirection = directionType == Direction.X ? Vector3.right : directionType == Direction.Y ? Vector3.up : Vector3.back;
 
         // If _Opening
         _Point = _Opening ? Mathf.Lerp(_Point, 1.0f, Time.deltaTime * speed) : Mathf.Lerp(_Point, 0.0f, Time.deltaTime * speed);
 
         // Move doors
         if (doorL)
-            doorL.localPosition = initialDoorL + (doorDirection * _Point * openDistance);
+            doorL.localPosition = _InitialDoorL + (_DoorDirection * _Point * openDistance);
 
         if (doorR)
-            doorR.localPosition = initialDoorR + (-doorDirection * _Point * openDistance);
+            doorR.localPosition = _InitialDoorR + (-_DoorDirection * _Point * openDistance);
 	}
 }

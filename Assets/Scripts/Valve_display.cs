@@ -19,6 +19,7 @@ public class Valve_display : MonoBehaviour
     //changes the slider value, parameters are given in add() and substract() , where plus is true and minus is false
     private void changeSlider(int limitNumber, bool plusOrMinus)
     {
+        //cooldown makes sure the display value doesn't go to 100 in 1 second but gradually
         _ButtonCooldown -= Time.deltaTime;
         if (_ButtonCooldown < 0)
         {
@@ -30,6 +31,8 @@ public class Valve_display : MonoBehaviour
             _ButtonCooldown = 0.5f;
         }
     }
+
+    //These call the change slider function with the first parameter being its max value and bool to check to go up or down
     public void add()
     {
         changeSlider(100, true);
