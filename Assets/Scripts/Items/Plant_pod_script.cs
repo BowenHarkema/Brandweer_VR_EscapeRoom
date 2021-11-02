@@ -69,9 +69,9 @@ public class Plant_pod_script : MonoBehaviour
          * this part of code checks if the nutrients are correctly balanced
          */
         //oxygen
-        if ((oxygen_current.value ) > (target_oxygen - 0.05))
+        if ((oxygen_current.value) > (target_oxygen - 0.05))
         {
-            if ((oxygen_current.value ) < (target_oxygen + 0.05))
+            if ((oxygen_current.value) < (target_oxygen + 0.05))
             {
                 oxygen = true;
             }
@@ -85,9 +85,9 @@ public class Plant_pod_script : MonoBehaviour
             oxygen = false;
         }
         //water
-        if ((water_current.value ) > (target_water - 0.05))
+        if ((water_current.value) > (target_water - 0.05))
         {
-            if ((water_current.value ) < (target_water + 0.05))
+            if ((water_current.value) < (target_water + 0.05))
             {
                 water = true;
             }
@@ -102,9 +102,9 @@ public class Plant_pod_script : MonoBehaviour
         }
         //nutrients
 
-        if ((nutrient_current.value ) > (target_nutrient - 0.05))
+        if ((nutrient_current.value) > (target_nutrient - 0.05))
         {
-            if ((nutrient_current.value ) < (target_nutrient + 0.05))
+            if ((nutrient_current.value) < (target_nutrient + 0.05))
             {
                 nutrient = true;
             }
@@ -139,10 +139,10 @@ public class Plant_pod_script : MonoBehaviour
         }
 
     }
-//Handles the first spawning of the plant, aswell as chance calculation if its broken
-    public void spawnPlant() 
+    //Handles the first spawning of the plant, aswell as chance calculation if its broken
+    public void spawnPlant()
     {
-      //  GameObject.Destroy(plant_placeholder.transform.GetChild(0).gameObject);
+        //  GameObject.Destroy(plant_placeholder.transform.GetChild(0).gameObject);
         GameObject newplant = Instantiate(plant_prefabs[Random.Range(0, plant_prefabs.Count)], plant_placeholder.transform);
         newplant.transform.localPosition = new Vector3(0, 0, 0);
         newplant.transform.parent = plant_placeholder.transform;
@@ -158,7 +158,7 @@ public class Plant_pod_script : MonoBehaviour
             water_current.value = Random.Range(0.0f, 1.0f);
             nutrient_current.value = Random.Range(0.0f, 1.0f);
             newplant.GetComponent<MeshRenderer>().material = Dead_texture;
-            
+
 
             if (Random.Range(0, 100) < 25)
             {

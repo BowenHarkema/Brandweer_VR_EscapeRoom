@@ -24,7 +24,7 @@ public class MainEnginePanel : MonoBehaviour
     //function for update data and checking values
     private void Update()
     {
-        string temp = "Sequence: " + string.Join(",", _SM.P_Current_sequence_Order);
+        string temp = string.Join(",", _SM.P_Current_sequence_Order);
         _Redroom_Sequence_Text.text = temp;
         _Greenroom_Sequence_Text.text = temp;
     }

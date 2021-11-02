@@ -36,12 +36,12 @@ public class CoolingPanel : MonoBehaviour
 
         if(_Greenroom_Cooling_Text.enabled)
         {
-            _Greenroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingGreen);
+            _Greenroom_Cooling_Text.text = "Koeling Groen: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingGreen);
         }
 
         if(_Redroom_Cooling_Text.enabled)
         {
-            _Redroom_Cooling_Text.text = "Cooling level: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingRed);
+            _Redroom_Cooling_Text.text = "Koeling rood: " + Mathf.RoundToInt(Cooling_Manager.current.P_CoolingRed);
         }
     }
 

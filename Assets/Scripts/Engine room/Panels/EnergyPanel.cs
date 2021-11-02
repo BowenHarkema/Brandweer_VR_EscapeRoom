@@ -34,8 +34,8 @@ public class EnergyPanel : MonoBehaviour
             Energy_Manager._Current.LowerEnergyRed();
         }
 
-        _Greenroom_Energy_Text.text = "Energy level: " + Mathf.RoundToInt(Energy_Manager._Current.P_EnergyGreen);
-        _Redroom_Energy_Text.text = "Energy level: " + Mathf.RoundToInt(Energy_Manager._Current.P_EnergyRed);
+        _Greenroom_Energy_Text.text = "energie groen: " + Mathf.RoundToInt(Energy_Manager._Current.P_EnergyGreen);
+        _Redroom_Energy_Text.text = "enrgie rood: " + Mathf.RoundToInt(Energy_Manager._Current.P_EnergyRed);
     }
 
     //Functions to set boolean so we dont use event functions
