@@ -17,7 +17,7 @@ public class RodHandler : MonoBehaviour
     
     private void Start()
     {
-        rightSequence = "112131";
+        rightSequence = "142233112436";
         currentSequence = "";
     }
     private void Update()
