@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------------------------------
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class DoorDoubleSlide2 : MonoBehaviour {
@@ -54,16 +55,25 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     }
 
     //Something left? close doors
-    void OnTriggerExit(Collider other)
+    async void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-           gameObject.GetComponent<ShowRooms>().HideRoom();
             opening = false;
 
             AudioSource audio = GetComponent<AudioSource>();
             audio.Play();
+
+            //3 second delay before room is hidden, gives the door time to fully close
+            await Task.Delay(3000);
+            gameObject.GetComponent<ShowRooms>().HideRoom();
         }
+    }
+
+    //force opens a door, for instance the reactor doors when all generators are up
+    public void forceOpenDoors()
+    {
+        opening = true;
     }
 	
 

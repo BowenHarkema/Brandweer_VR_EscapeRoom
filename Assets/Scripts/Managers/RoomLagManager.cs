@@ -15,9 +15,13 @@ public class RoomLagManager : MonoBehaviour
     }
     void Update()
     {
-        
-        rooms[currentRoom].SetActive(true);
-
+        if(currentRoom == 2 || currentRoom == 3)
+        {
+            rooms[2].SetActive(true);
+            rooms[3].SetActive(true);
+        }
+        else
+            rooms[currentRoom].SetActive(true);
     }
     public void setCurrentRoom(int roomNumber)
     {

@@ -7,6 +7,8 @@ public class GeneratorScript : MonoBehaviour
 {
     public int cellsNeeded=1;
     public float moveInTime=4f;
+    [SerializeField]
+    private NetworkedGrabbing _NetworkGrabbing;
 
     public UnityEvent generatorStarted = new UnityEvent();
 
@@ -26,8 +28,9 @@ public class GeneratorScript : MonoBehaviour
 
         // check for full powercell
         if(go.tag.Equals("powercell")){
-            if(go.GetComponent<powercell_script>().cellState==CellState.FULL){
+            if(go.GetComponent<powercell_script>().cellState==CellState.FULL){        
                 takeCell(go);
+                collision.gameObject.GetComponent<NetworkedGrabbing>().P_isheld = false;
             }
         }
     }
@@ -36,8 +39,9 @@ public class GeneratorScript : MonoBehaviour
     bool iscellTaken=false;
 
     void takeCell(GameObject powercell){
+        
 
-        if(powercell==currentCell) return;
+        if (powercell==currentCell) return;
 
         if(currentCell!=null){
             // destroy the cell
@@ -90,11 +94,13 @@ public class GeneratorScript : MonoBehaviour
 
     // called when the powercell is fully inside the generator.
     void cellTaken(){
-        iscellTaken=true;
+        
+        iscellTaken =true;
 
         // if all the cells are inserted, start the generator.
         cellsNeeded--;
         if(cellsNeeded<=0) powerup();
+        
     }
 
 
@@ -103,7 +109,6 @@ public class GeneratorScript : MonoBehaviour
         hatch.GetComponent<HatchScript>().closeHatch();
 
         GetComponent<AudioSource>().Play();
-
         // send generator activated signal.
         generatorStarted.Invoke();
     }

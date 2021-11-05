@@ -8,6 +8,11 @@ TagManager:
   - Lever
   - powercell
   - barcode
+  - Shelf
+  - Wall
+  - RodCollision
+  - Rod
+  - ButtonBase
   layers:
   - Default
   - TransparentFX
