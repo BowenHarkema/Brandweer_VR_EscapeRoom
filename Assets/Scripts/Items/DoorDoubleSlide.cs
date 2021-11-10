@@ -12,41 +12,38 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     public Transform doorL = null;
     public Transform doorR = null;
 
-    private Vector3 initialDoorL;
-    private Vector3 initialDoorR;
-    private Vector3 doorDirection;
+    private Vector3 _InitialDoorL;
+    private Vector3 _InitialDoorR;
+    private Vector3 _DoorDirection;
 
+    //DirectionType needs to be set in unity
     public enum Direction { X, Y, Z };
-    public Direction directionType = Direction.Y;
+    public Direction directionType;
 
     //Control Variables
     public float speed = 2.0f;
     public float openDistance = 2.0f;
 
     //Internal... stuff
-    private float point = 0.0f;
-    private bool opening = false;
+    private float _Point = 0.0f;
+    private bool _Opening = false;
 
-   
 
-    //Record initial positions
+    //Record initial door positions
 	void Start () {
-        if (doorL){
-            initialDoorL = doorL.localPosition;
-        }
+        if (doorL)
+            _InitialDoorL = doorL.localPosition;
 
-        if (doorR){
-            initialDoorR = doorR.localPosition;
-        }
-         
+        if (doorR)
+            _InitialDoorR = doorR.localPosition;  
 	}
 
-    //Something approaching? open doors
+    //Something approaching? open doors if collider is a player
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player") {
            gameObject.GetComponent<ShowRooms>().showRoom();
-            opening = true;
+            _Opening = true;
 
         AudioSource audio = GetComponent<AudioSource>();
         audio.Play();
@@ -54,12 +51,12 @@ public class DoorDoubleSlide2 : MonoBehaviour {
 
     }
 
-    //Something left? close doors
+    //Something left? close doors if collider is a player
     async void OnTriggerExit(Collider other)
     {
         if (other.tag == "Player")
         {
-            opening = false;
+            _Opening = false;
 
             AudioSource audio = GetComponent<AudioSource>();
             audio.Play();
@@ -73,45 +70,22 @@ public class DoorDoubleSlide2 : MonoBehaviour {
     //force opens a door, for instance the reactor doors when all generators are up
     public void forceOpenDoors()
     {
-        opening = true;
+        _Opening = true;
     }
-	
 
     //Open or close doors
 	void Update () {
-        // Direction selection
-        if (directionType == Direction.X)
-        {
-            doorDirection = Vector3.right;
-        }
-        else if (directionType == Direction.Y)
-        {
-            doorDirection = Vector3.up;
-        }
-        else if (directionType == Direction.Z)
-        {
-            doorDirection = Vector3.back;
-        }
+        // Direction selection in which the door will open
+        _DoorDirection = directionType == Direction.X ? Vector3.right : directionType == Direction.Y ? Vector3.up : Vector3.back;
 
-        // If opening
-        if (opening)
-        {
-            point = Mathf.Lerp(point, 1.0f, Time.deltaTime * speed);
-        }
-        else
-        {
-            point = Mathf.Lerp(point, 0.0f, Time.deltaTime * speed);
-        }
+        // If _Opening
+        _Point = _Opening ? Mathf.Lerp(_Point, 1.0f, Time.deltaTime * speed) : Mathf.Lerp(_Point, 0.0f, Time.deltaTime * speed);
 
         // Move doors
         if (doorL)
-        {
-            doorL.localPosition = initialDoorL + (doorDirection * point * openDistance);
-        }
+            doorL.localPosition = _InitialDoorL + (_DoorDirection * _Point * openDistance);
 
         if (doorR)
-        {
-            doorR.localPosition = initialDoorR + (-doorDirection * point * openDistance);
-        }
+            doorR.localPosition = _InitialDoorR + (-_DoorDirection * _Point * openDistance);
 	}
 }

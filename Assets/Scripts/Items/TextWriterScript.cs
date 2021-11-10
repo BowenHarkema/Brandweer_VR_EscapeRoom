@@ -7,24 +7,23 @@ public class TextWriterScript : MonoBehaviour
 {
     public float letterPause = 0.2f;
 
-
-    string message;
-    TextMeshProUGUI textComp;
+    private string _Message;
+    private TextMeshProUGUI _TextComp;
 
     // Use this for initialization
     void Start()
     {
-        textComp = GetComponent<TextMeshProUGUI>();
-        message = textComp.text;
-        textComp.text = "";
+        _TextComp = GetComponent<TextMeshProUGUI>();
+        _Message = _TextComp.text;
+        _TextComp.text = "";
         StartCoroutine(TypeText());
     }
 
     IEnumerator TypeText()
     {
-        foreach (char letter in message.ToCharArray())
+        foreach (char letter in _Message.ToCharArray())
         {
-            textComp.text += letter;
+            _TextComp.text += letter;
             yield return 0;
             yield return new WaitForSeconds(letterPause);
         }

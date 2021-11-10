@@ -10,10 +10,10 @@ public class CollisionDetection : MonoBehaviour
     /// </summary>
 
     [SerializeField]
-    private bool isFront;
+    private bool _IsFront;
     /// makes sure the box collider is the back box collider
     [SerializeField]
-    private bool isBack;
+    private bool _IsBack;
     /// <summary>
     /// Allows the call to the ControllerMovementScript that passes the public bool for car movement
     /// and dissalows if contact persists
@@ -23,43 +23,34 @@ public class CollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
+        //checks if collision of the collider is with a shelf or wall on enter, then checks for the front or back side of the cart
         if (collider.gameObject.tag == "Shelf" || collider.gameObject.tag == "Wall")
         {
-            if (isFront)
+            if (_IsFront)
             {
-                print("er is contact voor stopt");
                 _controllerMovementScript.P_isLockedForward = true;
                 _controllerMovementScript.P_isLockedBack = false;
-
             }
-            if (isBack)
+            if (_IsBack)
             {
                 _controllerMovementScript.P_isLockedBack = true;
                 _controllerMovementScript.P_isLockedForward = false;
-                print("er is contact achter stopt");
             }
-
-
         }
-
     }
     private void OnTriggerExit(Collider collider)
     {
+        //checks if collision of the collider is with a shelf or wall on exit, then checks for the front or back side of the cart
         if (collider.gameObject.tag == "Shelf" || collider.gameObject.tag == "Wall")
         {
-            if (isFront)
+            if (_IsFront)
             {
                 _controllerMovementScript.P_isLockedForward = false;
-
-                print("er is geen contact voor ");
             }
-            if (isBack)
+            if (_IsBack)
             {
                 _controllerMovementScript.P_isLockedBack = false;
-                print("er is geen contact achter");
             }
-
-
         }
     }
 }

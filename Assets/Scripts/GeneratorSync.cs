@@ -13,29 +13,21 @@ public class GeneratorSync : MonoBehaviour
     public UnityEvent AllGeneratorsUp = new UnityEvent();
     public TextMeshProUGUI generatorUpText;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        //checkt of alle generators up zijn en called dan een event wat de deuren opent naar reactor
+        //checks if all generators are up and then calls a unity event
         if(_generatorUpCount == 5)
             AllGeneratorsUp.Invoke();
     }
 
-    //event dat wordt aangeroepen zodra een powercell in een generator wordt geladen
+    //event that gets called when powercell is inserted into generator
     public void generatorUp()
     {
         if (_generatorUpCount < 5)
         {
             _generatorUpCount++;
-
             generatorUpText.text = $"Werkende generators: {_generatorUpCount.ToString()}/5";
         }
-        print("aantal generators up: " + _generatorUpCount);
     }
 }
