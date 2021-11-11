@@ -9,6 +9,9 @@ public class RodHandler : MonoBehaviour
     [SerializeField] private List<GameObject> Rods;
     [SerializeField] private GameObject coreSphere;
     [SerializeField] private ParticleSystem coreSmoke;
+    [SerializeField] private AudioSource _source;
+    [SerializeField] private AudioClip _audioClip;
+
 
     [SerializeField] private string rightSequence;
     [SerializeField] private string currentSequence;
@@ -17,7 +20,7 @@ public class RodHandler : MonoBehaviour
     
     private void Start()
     {
-        rightSequence = "142233112436";
+        rightSequence = "1112141516";
         currentSequence = "";
     }
     private void Update()
@@ -118,6 +121,7 @@ public class RodHandler : MonoBehaviour
             coreSphere.GetComponent<Light>().color = Color.red;
             coreSmoke.GetComponent<ParticleSystem>().startColor = Color.red;
             wrongSequence();
+            _source.PlayOneShot(_audioClip);
             print("lekker man nu is alles kapot");
             
         }

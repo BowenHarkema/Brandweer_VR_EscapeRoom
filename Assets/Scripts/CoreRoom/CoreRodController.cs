@@ -6,6 +6,8 @@ using System;
 
 public class CoreRodController : MonoBehaviour
 {
+    
+
     [SerializeField] private float threshold = 0.1f;
     [SerializeField] private float deadZone = 0.025f;
 
@@ -25,28 +27,36 @@ public class CoreRodController : MonoBehaviour
     //zet start positie en save start positie in originalpos. Joint is de config joint op de cirkle om de rod heen.
     void Start()
     {
+
         originalPos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        
         _startPos = transform.localPosition;
         _joint = GetComponent<ConfigurableJoint>();
+
     }
 
     void Update()
     {
+        
         if (!isPressed && GetValue() + threshold >= 1)
         {
+       
             Pressed();
+           
         }
+       
     }
 
     private float GetValue()
     {
         var value = Vector3.Distance(_startPos, transform.localPosition) / _joint.linearLimit.limit;
+
         if (Mathf.Abs(value) < deadZone)
             value = 0;
 
         return Mathf.Clamp(value, -1f, 1f);
-    }
 
+    }
     //Stuur de rod naam door naar de hanlder zet
     //zet de publieke bool naar pressed
     //invoke laad de CoreRoomHandler
@@ -55,7 +65,7 @@ public class CoreRodController : MonoBehaviour
         rodNameSend.rodNameSetter = rodNumber;
         isPressed = true;
         _rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation; 
-     
+        //onPressed.Invoke();
         print("pressed rod");
     }
 
@@ -69,4 +79,5 @@ public class CoreRodController : MonoBehaviour
            RigidbodyConstraints.FreezePositionX |
            RigidbodyConstraints.FreezePositionZ;
     }
+
 }
