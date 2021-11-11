@@ -6,7 +6,7 @@ using System;
 
 public class CoreRodController : MonoBehaviour
 {
-    public UnityEvent onPressed, onReleased;
+    
 
     [SerializeField] private float threshold = 0.1f;
     [SerializeField] private float deadZone = 0.025f;
@@ -65,7 +65,7 @@ public class CoreRodController : MonoBehaviour
         rodNameSend.rodNameSetter = rodNumber;
         isPressed = true;
         _rb.constraints = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotation; 
-        onPressed.Invoke();
+        //onPressed.Invoke();
         print("pressed rod");
     }
 
