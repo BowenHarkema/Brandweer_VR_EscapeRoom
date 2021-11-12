@@ -7,7 +7,7 @@ using TMPro;
 public class GeneratorSync : MonoBehaviour
 {
     [SerializeField] private int _generatorUpCount;
-    public int GeneratorUpCount { get { return _generatorUpCount; } set { _generatorUpCount = value; } }
+    public int P_GeneratorUpCount { get { return _generatorUpCount; } set { _generatorUpCount = value; } }
     public TextMeshProUGUI generatorUpText;
 
     //event that gets called when powercell is inserted into generator

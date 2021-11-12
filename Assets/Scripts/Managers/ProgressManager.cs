@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using UnityEngine.Events;
 
 public class ProgressManager : MonoBehaviour
 {
@@ -12,16 +13,34 @@ public class ProgressManager : MonoBehaviour
 
     [SerializeField] private ExitGames.Client.Photon.Hashtable _MyCustomProperties = new ExitGames.Client.Photon.Hashtable();
 
+    public UnityEvent GeneratorsEvent = new UnityEvent();
+    public UnityEvent PlantPodsEvent = new UnityEvent();
+    private bool _IsCalled = false;
+
     // Update is called once per frame
     void Update()
     {
-        _AllGeneratorsUp = _GeneratorSync.GeneratorUpCount == 5 ? true : false;
+        //checks if generators are all up and if plant pods are all balanced
+        _AllGeneratorsUp = _GeneratorSync.P_GeneratorUpCount == 5 ? true : false;
         _AllPodsBalanced = _PlantPodsController.getBrokenPods() == 0 ? true : false;
 
+        //set the custom properties for generators and plantpods
         _MyCustomProperties["Generators"] = _AllGeneratorsUp;
-        _MyCustomProperties["PlantPods"] = _AllGeneratorsUp;
+        _MyCustomProperties["PlantPods"] = _AllPodsBalanced;
         PhotonNetwork.LocalPlayer.CustomProperties = _MyCustomProperties;
 
-        //check if customproperty is true, then call event
+        if(_AllGeneratorsUp == true && _AllPodsBalanced == true)
+            GeneratorAndPodsEvent();
+    }
+
+    //Unity events that are called as soon as generators are up and pods are balanced
+    private void GeneratorAndPodsEvent()
+    {
+        _IsCalled = true;
+        if (!_IsCalled)
+        {
+            GeneratorsEvent.Invoke();
+            PlantPodsEvent.Invoke();
+        }
     }
 }
