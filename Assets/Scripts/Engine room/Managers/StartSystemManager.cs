@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Linq;
+using UnityEngine.Events;
 
 public class StartSystemManager : MonoBehaviour
 {
@@ -14,7 +15,9 @@ public class StartSystemManager : MonoBehaviour
     [SerializeField]
     private List<int> _Current_Sequence_Order;
     public List<int> P_Current_sequence_Order { get { return _Current_Sequence_Order; } }
-   
+
+    public UnityEvent _FixedEvent = new UnityEvent();
+
     //Set the manager as singleton item.
     private void Awake()
     {
@@ -34,6 +37,7 @@ public class StartSystemManager : MonoBehaviour
             if (_Current_Sequence_Order.SequenceEqual(_Sequence_Order))
             {
                 Debug.Log("Engine started");
+                _FixedEvent.Invoke();
             }
             else
             {

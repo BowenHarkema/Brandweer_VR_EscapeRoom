@@ -6,41 +6,92 @@ using UnityEngine.Events;
 
 public class ProgressManager : MonoBehaviour
 {
-    [SerializeField] private GeneratorSync _GeneratorSync;
-    [SerializeField] private Plant_pods_controller _PlantPodsController;
     [SerializeField] private bool _AllGeneratorsUp;
     [SerializeField] private bool _AllPodsBalanced;
+    [SerializeField] private bool _EnginesUp;
+    [SerializeField] private bool _CoreUp;
 
-    [SerializeField] private ExitGames.Client.Photon.Hashtable _MyCustomProperties = new ExitGames.Client.Photon.Hashtable();
+    [SerializeField] private ExitGames.Client.Photon.Hashtable GenProp = new ExitGames.Client.Photon.Hashtable();
+    [SerializeField] private ExitGames.Client.Photon.Hashtable LifeProp = new ExitGames.Client.Photon.Hashtable();
+    [SerializeField] private ExitGames.Client.Photon.Hashtable EngineProp = new ExitGames.Client.Photon.Hashtable();
+    [SerializeField] private ExitGames.Client.Photon.Hashtable CoreProp = new ExitGames.Client.Photon.Hashtable();
+
 
     public UnityEvent GeneratorsEvent = new UnityEvent();
     public UnityEvent PlantPodsEvent = new UnityEvent();
-    private bool _IsCalled = false;
+    public UnityEvent EngineEvent = new UnityEvent();
+    public UnityEvent CoreEvent = new UnityEvent();
 
-    // Update is called once per frame
-    void Update()
+    //set the custom properties
+    private void Start()
     {
-        //checks if generators are all up and if plant pods are all balanced
-        _AllGeneratorsUp = _GeneratorSync.P_GeneratorUpCount == 5 ? true : false;
-        _AllPodsBalanced = _PlantPodsController.getBrokenPods() == 0 ? true : false;
+        GenProp["Generators"] = false;
+        LifeProp["LifeSupport"] = false;
+        EngineProp["Engines"] = false;
+        CoreProp["Core"] = false;
 
-        //set the custom properties for generators and plantpods
-        _MyCustomProperties["Generators"] = _AllGeneratorsUp;
-        _MyCustomProperties["PlantPods"] = _AllPodsBalanced;
-        PhotonNetwork.LocalPlayer.CustomProperties = _MyCustomProperties;
-
-        if(_AllGeneratorsUp == true && _AllPodsBalanced == true)
-            GeneratorAndPodsEvent();
+        PhotonNetwork.CurrentRoom.SetCustomProperties(GenProp);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(LifeProp);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(EngineProp);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(CoreProp);
     }
 
-    //Unity events that are called as soon as generators are up and pods are balanced
-    private void GeneratorAndPodsEvent()
+    //Check if one of the properties is updated
+    void Update()
     {
-        _IsCalled = true;
-        if (!_IsCalled)
+        if(_AllGeneratorsUp != (bool)PhotonNetwork.CurrentRoom.CustomProperties["Generators"])
         {
-            GeneratorsEvent.Invoke();
-            PlantPodsEvent.Invoke();
+            RoomFixed(1);
+        }
+        else if (_AllPodsBalanced != (bool)PhotonNetwork.CurrentRoom.CustomProperties["LifeSupport"])
+        {
+            RoomFixed(2);
+        }
+        else if (_EnginesUp != (bool)PhotonNetwork.CurrentRoom.CustomProperties["Engines"])
+        {
+            RoomFixed(3);
+        }
+        else if (_CoreUp != (bool)PhotonNetwork.CurrentRoom.CustomProperties["Core"])
+        {
+            RoomFixed(4);
+        }
+    }
+
+    //Function for activating event when room is fixed
+    public void RoomFixed(int fixedroom)
+    {
+        switch(fixedroom)
+        {
+            case 1:
+                GenProp["Generators"] = true;
+                _AllGeneratorsUp = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(GenProp);
+                GeneratorsEvent.Invoke();
+                break;
+
+            case 2:
+                LifeProp["LifeSupport"] = true;
+                _AllPodsBalanced = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(LifeProp);
+                PlantPodsEvent.Invoke();
+                break;
+
+            case 3:
+                EngineProp["Engines"] = true;
+                _EnginesUp = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(EngineProp);
+                EngineEvent.Invoke();
+                break;
+
+            case 4:
+                CoreProp["Core"] = true;
+                _CoreUp = true;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(CoreProp);
+                CoreEvent.Invoke();
+                break;
+
+            default:
+                break;
         }
     }
 }
