@@ -1,16 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Events;
 
 public class Plant_pods_controller : MonoBehaviour
 {
     public PlantsDB Plant_DB;
     private Plant_pod_script[] podscripts;
+
+    public UnityEvent PlantPodsEvent = new UnityEvent();
+
     void Start()
     {
         podscripts = gameObject.GetComponentsInChildren<Plant_pod_script>();
         PopulatePlantPods();
+    }
+
+    void Update()
+    {
+        //checks if all pods are balanced
+        if(getBrokenPods() == 0)
+        {
+            PlantPodsEvent.Invoke();
+        }
     }
 
     //Handles plant population from plant Database

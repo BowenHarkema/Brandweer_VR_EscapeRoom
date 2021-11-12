@@ -62,6 +62,7 @@ public class ProgressManager : MonoBehaviour
     {
         switch(fixedroom)
         {
+            //generator
             case 1:
                 GenProp["Generators"] = true;
                 _AllGeneratorsUp = true;
@@ -69,6 +70,7 @@ public class ProgressManager : MonoBehaviour
                 GeneratorsEvent.Invoke();
                 break;
 
+            //plant pods
             case 2:
                 LifeProp["LifeSupport"] = true;
                 _AllPodsBalanced = true;
@@ -76,6 +78,7 @@ public class ProgressManager : MonoBehaviour
                 PlantPodsEvent.Invoke();
                 break;
 
+            //engine
             case 3:
                 EngineProp["Engines"] = true;
                 _EnginesUp = true;
@@ -83,6 +86,7 @@ public class ProgressManager : MonoBehaviour
                 EngineEvent.Invoke();
                 break;
 
+            //core
             case 4:
                 CoreProp["Core"] = true;
                 _CoreUp = true;
