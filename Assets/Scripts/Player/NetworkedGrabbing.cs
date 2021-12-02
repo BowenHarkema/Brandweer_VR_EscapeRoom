@@ -35,6 +35,11 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
             gameObject.layer = 8;
         }
         }
+        if(gameObject.tag == "powercell")
+        {
+            P_isheld = true;
+            Rigidbody.isKinematic = false;
+        }
     }
     private void TransferOwnership()
     {

@@ -39,7 +39,7 @@ public class StartSystemManager : MonoBehaviour
             _Current_Sequence_Order = new List<int>();
         }
 
-        if(_Current_Sequence_Order.Count() == _Sequence_Order.Count())
+        if (_Current_Sequence_Order.Count() == _Sequence_Order.Count())
         {
             if (_Current_Sequence_Order.SequenceEqual(_Sequence_Order))
             {
