@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 using UnityEngine.Events;
+using Photon.Pun;
 
 public class StartSystemManager : MonoBehaviour
 {
@@ -16,18 +17,24 @@ public class StartSystemManager : MonoBehaviour
     private List<int> _Current_Sequence_Order;
     public List<int> P_Current_sequence_Order { get { return _Current_Sequence_Order; } }
 
-    public UnityEvent _FixedEvent = new UnityEvent();
+    [SerializeField] private ProgressManager _ProgressManager;
+
+    //Sync vars 
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _SequenceListProp = new ExitGames.Client.Photon.Hashtable();
 
     //Set the manager as singleton item.
     private void Awake()
     {
         _Current = this;
+        _SequenceListProp["SequenceEngine"] = new List<int>();
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceListProp);
     }
 
     //Fixed update to check data and fix items.
     private void FixedUpdate()
     {
-        if(_Current_Sequence_Order.Count() > _Sequence_Order.Count())
+        _Current_Sequence_Order = (List<int>)PhotonNetwork.CurrentRoom.CustomProperties["SequenceEngine"];
+        if (_Current_Sequence_Order.Count() > _Sequence_Order.Count())
         {
             _Current_Sequence_Order = new List<int>();
         }
@@ -37,7 +44,6 @@ public class StartSystemManager : MonoBehaviour
             if (_Current_Sequence_Order.SequenceEqual(_Sequence_Order))
             {
                 Debug.Log("Engine started");
-                _FixedEvent.Invoke();
             }
             else
             {
@@ -55,6 +61,8 @@ public class StartSystemManager : MonoBehaviour
         {
             OnAbutton();
             _Current_Sequence_Order.Add(1);
+            _SequenceListProp["SequenceEngine"] = _Current_Sequence_Order;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceListProp);
         }
     }
 
@@ -66,6 +74,8 @@ public class StartSystemManager : MonoBehaviour
         {
             OnBbutton();
             _Current_Sequence_Order.Add(2);
+            _SequenceListProp["SequenceEngine"] = _Current_Sequence_Order;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceListProp);
         }
     }
 
@@ -77,6 +87,8 @@ public class StartSystemManager : MonoBehaviour
         {
             OnDbutton();
             _Current_Sequence_Order.Add(3);
+            _SequenceListProp["SequenceEngine"] = _Current_Sequence_Order;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceListProp);
         }
     }
 
@@ -88,6 +100,8 @@ public class StartSystemManager : MonoBehaviour
         {
             OnDbutton();
             _Current_Sequence_Order.Add(4);
+            _SequenceListProp["SequenceEngine"] = _Current_Sequence_Order;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceListProp);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
 
 public class Cooling_Manager : MonoBehaviour
 {
@@ -31,6 +32,13 @@ public class Cooling_Manager : MonoBehaviour
     [SerializeField]    
     private int _DismissRange;
 
+    [SerializeField] private ProgressManager _ProgressManager;
+
+    //Sync vars 
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _RedCoolingProp = new ExitGames.Client.Photon.Hashtable();
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _GreenCoolingProp = new ExitGames.Client.Photon.Hashtable();
+
+
     //Set the manager as singleton item. and divide target cooling value to half
     private void Awake()
     {
@@ -38,12 +46,22 @@ public class Cooling_Manager : MonoBehaviour
 
         _CoolingGreen = _MaxCooling / 2;
         _CoolingRed = _MaxCooling / 2;
+
+        
+        _RedCoolingProp["RedCooling"] = _CoolingRed;
+        _GreenCoolingProp["GreenCooling"] = _CoolingGreen;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_RedCoolingProp);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_GreenCoolingProp);
     }
 
     //Fixed update to check data and fix items.
     private void FixedUpdate()
     {
-        if(_CoolingGreen >= _TargetCoolingGreen - _DismissRange && _CoolingGreen <= _TargetCoolingGreen + _DismissRange 
+        _CoolingRed = (float)PhotonNetwork.CurrentRoom.CustomProperties["RedCooling"];
+        _CoolingGreen = (float)PhotonNetwork.CurrentRoom.CustomProperties["GreenCooling"];
+
+        if (_CoolingGreen >= _TargetCoolingGreen - _DismissRange && _CoolingGreen <= _TargetCoolingGreen + _DismissRange 
             && _CoolingRed >= _TargetCoolingRed - _DismissRange && _CoolingRed <= _TargetCoolingRed + _DismissRange )
         {
             Debug.Log("Cooling Fixed");
@@ -65,11 +83,15 @@ public class Cooling_Manager : MonoBehaviour
             if(_CoolingGreen >= 0 && _CoolingGreen <= _MaxCooling)
             {
                 _CoolingGreen -= _RaiseLowerStep * Time.deltaTime;
+                _GreenCoolingProp["GreenCooling"] = _CoolingGreen;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_GreenCoolingProp);
             }
 
             if (_CoolingRed >= 0 && _CoolingRed <= _MaxCooling)
             {
                 _CoolingRed += _RaiseLowerStep * Time.deltaTime;
+                _RedCoolingProp["RedCooling"] = _CoolingRed;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_RedCoolingProp);
             }
 
             if (_CoolingGreen <= 0) {
@@ -96,11 +118,15 @@ public class Cooling_Manager : MonoBehaviour
             if (_CoolingGreen >= 0 && _CoolingGreen <= _MaxCooling)
             {
                 _CoolingGreen += _RaiseLowerStep * Time.deltaTime;
+                _GreenCoolingProp["GreenCooling"] = _CoolingGreen;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_GreenCoolingProp);
             }
 
             if (_CoolingRed >= 0 && _CoolingRed <= _MaxCooling)
             {
                 _CoolingRed -= _RaiseLowerStep * Time.deltaTime;
+                _RedCoolingProp["RedCooling"] = _CoolingRed;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_RedCoolingProp);
             }
 
             if (_CoolingGreen <= 0) {

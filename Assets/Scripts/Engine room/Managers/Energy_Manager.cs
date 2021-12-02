@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Photon.Pun;
 
 public class Energy_Manager : MonoBehaviour
 {
@@ -33,6 +34,12 @@ public class Energy_Manager : MonoBehaviour
     [SerializeField]
     private int _DismissRange;
 
+    [SerializeField] private ProgressManager _ProgressManager;
+
+    //Sync vars 
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _RedEnergyProp = new ExitGames.Client.Photon.Hashtable();
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _GreenEnergyProp = new ExitGames.Client.Photon.Hashtable();
+
     //Set the manager as singleton item.
     private void Awake()
     {
@@ -40,15 +47,24 @@ public class Energy_Manager : MonoBehaviour
 
         _EnergyGreen = _MaxEnergy / 2;
         _EnergyRed = _MaxEnergy / 2;
+
+        _RedEnergyProp["RedEnergy"] = _EnergyRed;
+        _GreenEnergyProp["GreenEnergy"] = _EnergyGreen;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_RedEnergyProp);
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_GreenEnergyProp);
     }
 
     //Fixed update to check data and fix items.
     private void FixedUpdate()
     {
+        _EnergyRed = (float)PhotonNetwork.CurrentRoom.CustomProperties["RedEnergy"];
+        _EnergyGreen = (float)PhotonNetwork.CurrentRoom.CustomProperties["GreenEnergy"];
+
         if (_EnergyGreen >= _TargetEnergyGreen - _DismissRange && _EnergyGreen <= _TargetEnergyGreen + _DismissRange
             && _EnergyRed >= _TargetEnergyRed - _DismissRange && _EnergyRed <= _TargetEnergyRed + _DismissRange)
         {
-            Debug.Log("Energy Fixed");
+            _ProgressManager.RoomFixed(3);
         }
     }
 
@@ -63,11 +79,15 @@ public class Energy_Manager : MonoBehaviour
             if (_EnergyGreen >= 0 && _EnergyGreen <= _MaxEnergy)
             {
                 _EnergyGreen -= _RaiseLowerStep * Time.deltaTime;
+                _GreenEnergyProp["GreenEnergy"] = _EnergyGreen;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_GreenEnergyProp);
             }
 
             if (_EnergyRed >= 0 && _EnergyRed <= _MaxEnergy)
             {
                 _EnergyRed += _RaiseLowerStep * Time.deltaTime;
+                _RedEnergyProp["RedEnergy"] = _EnergyRed;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_RedEnergyProp);
             }
 
             if (_EnergyGreen <= 0)
@@ -102,11 +122,15 @@ public class Energy_Manager : MonoBehaviour
             if (_EnergyGreen >= 0 && _EnergyGreen <= _MaxEnergy)
             {
                 _EnergyGreen += _RaiseLowerStep * Time.deltaTime;
+                _GreenEnergyProp["GreenEnergy"] = _EnergyGreen;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_GreenEnergyProp);
             }
 
             if (_EnergyRed >= 0 && _EnergyRed <= _MaxEnergy)
             {
                 _EnergyRed -= _RaiseLowerStep * Time.deltaTime;
+                _RedEnergyProp["RedEnergy"] = _EnergyRed;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_RedEnergyProp);
             }
 
             if (_EnergyGreen <= 0)
