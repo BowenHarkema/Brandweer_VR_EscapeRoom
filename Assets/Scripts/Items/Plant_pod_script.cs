@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
+using Photon.Pun;
 
 public class Plant_pod_script : MonoBehaviour
 {
@@ -48,6 +49,8 @@ public class Plant_pod_script : MonoBehaviour
     public GameObject fire_placeholder;
     public GameObject barcode;
 
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _PodProps = new ExitGames.Client.Photon.Hashtable();
+
     // Update is called once per frame
     void Update()
     {
@@ -63,6 +66,11 @@ public class Plant_pod_script : MonoBehaviour
         //sets alive or dead texture if the nutrients are balanced
         plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Nutrients_balanced == true ? Alive_texture : Dead_texture;
 
+        _PodProps["Oxygen" + podNumber.ToString()] = oxygen_current.value;
+        _PodProps["Water" + podNumber.ToString()] = water_current.value;
+        _PodProps["Temp" + podNumber.ToString()] = temperature_current.value;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_PodProps);
     }
 
     //Handles the first spawning of the plant, as well as set values for plants so its values are the same to every player

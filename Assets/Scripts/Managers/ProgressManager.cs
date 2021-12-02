@@ -72,31 +72,43 @@ public class ProgressManager : MonoBehaviour
         switch(fixedroom)
         {
             case 1:
-                GenProp["Generators"] = true;
-                _AllGeneratorsUp = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(GenProp);
-                GeneratorsEvent.Invoke();
+                if(!_AllGeneratorsUp)
+                {
+                    GenProp["Generators"] = true;
+                    _AllGeneratorsUp = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(GenProp);
+                    GeneratorsEvent.Invoke();
+                }
                 break;
 
             case 2:
-                LifeProp["LifeSupport"] = true;
-                _AllPodsBalanced = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(LifeProp);
-                PlantPodsEvent.Invoke();
+                if (!_AllPodsBalanced)
+                {
+                    LifeProp["LifeSupport"] = true;
+                    _AllPodsBalanced = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(LifeProp);
+                    PlantPodsEvent.Invoke();
+                }
                 break;
 
             case 3:
-                EngineProp["Engines"] = true;
-                _EnginesUp = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(EngineProp);
-                EngineEvent.Invoke();
+                if (!_EnginesUp)
+                {
+                    EngineProp["Engines"] = true;
+                    _EnginesUp = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(EngineProp);
+                    EngineEvent.Invoke();
+                }
                 break;
 
             case 4:
-                CoreProp["Core"] = true;
-                _CoreUp = true;
-                PhotonNetwork.CurrentRoom.SetCustomProperties(CoreProp);
-                CoreEvent.Invoke();
+                if (!_CoreUp)
+                {
+                    CoreProp["Core"] = true;
+                    _CoreUp = true;
+                    PhotonNetwork.CurrentRoom.SetCustomProperties(CoreProp);
+                    CoreEvent.Invoke();
+                }
                 break;
 
             case 5:
