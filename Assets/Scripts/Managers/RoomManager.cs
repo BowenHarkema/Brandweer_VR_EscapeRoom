@@ -29,11 +29,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         roomOptions.MaxPlayers = 10;
         
-        PhotonNetwork.CreateRoom("escaperoom", roomOptions);
+        PhotonNetwork.CreateRoom("Devtest", roomOptions);
         
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("Ship_steve");
+        PhotonNetwork.LoadLevel("Development_engine_room");
     }
 }
