@@ -20,7 +20,7 @@ public class RodHandler : MonoBehaviour
     
     private void Start()
     {
-        rightSequence = "1112141516";
+        rightSequence = "162233122436132331142632";
         currentSequence = "";
     }
     private void Update()
@@ -30,9 +30,7 @@ public class RodHandler : MonoBehaviour
             coreSphere.GetComponent<Light>().color = Color.blue;
             coreSmoke.GetComponent<ParticleSystem>().startColor = Color.blue;
             AddRodToSequence(rodNameSetter);
-            
         }
-     
     }
 
     //switch case met de corresponderende rod code die naar de currentsequence schrijft

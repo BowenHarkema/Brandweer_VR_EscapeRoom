@@ -60,7 +60,10 @@ public class Cooling_Manager : MonoBehaviour
     //Fixed update to check data and fix items.
     private void FixedUpdate()
     {
-        if(_CoolingGreen >= _TargetCoolingGreen - _DismissRange && _CoolingGreen <= _TargetCoolingGreen + _DismissRange 
+        _CoolingRed = (float)PhotonNetwork.CurrentRoom.CustomProperties["RedCooling"];
+        _CoolingGreen = (float)PhotonNetwork.CurrentRoom.CustomProperties["GreenCooling"];
+
+        if (_CoolingGreen >= _TargetCoolingGreen - _DismissRange && _CoolingGreen <= _TargetCoolingGreen + _DismissRange 
             && _CoolingRed >= _TargetCoolingRed - _DismissRange && _CoolingRed <= _TargetCoolingRed + _DismissRange )
         {
             Debug.Log("Cooling Fixed");

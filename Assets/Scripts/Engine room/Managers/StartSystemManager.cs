@@ -44,6 +44,7 @@ public class StartSystemManager : MonoBehaviour
             if (_Current_Sequence_Order.SequenceEqual(_Sequence_Order))
             {
                 Debug.Log("Engine started");
+                _ProgressManager.RoomFixed(3);
             }
             else
             {
