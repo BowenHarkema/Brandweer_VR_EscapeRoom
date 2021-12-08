@@ -13,6 +13,8 @@ public class GeneratorSync : MonoBehaviour
 
     [SerializeField] private ExitGames.Client.Photon.Hashtable _GenCountProp = new ExitGames.Client.Photon.Hashtable();
 
+    [SerializeField] private ProgressManager _ProgressManager;
+
     private void Start()
     {
         _GenCountProp["GenCount"] = _generatorUpCount;
@@ -22,12 +24,13 @@ public class GeneratorSync : MonoBehaviour
     //event that gets called when powercell is inserted into generator
     public void generatorUp()
     {
-        if (_generatorUpCount <= 5)
+        if (_generatorUpCount <= 4)
         {
             _generatorUpCount++;
             _GenCountProp["GenCount"] = _generatorUpCount;
             PhotonNetwork.CurrentRoom.SetCustomProperties(_GenCountProp);
-            generatorUpText.text = $"Werkende generators: {_generatorUpCount.ToString()}/5";
+            generatorUpText.text = $"Werkende generators: {_generatorUpCount.ToString()}/4";
+            _ProgressManager.RoomFixed(1);
         }
     }
 }

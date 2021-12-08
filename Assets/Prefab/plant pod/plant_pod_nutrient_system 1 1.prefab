@@ -1783,6 +1783,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nutrient_display: {fileID: 2774271318201411563}
   percentageNumber: {fileID: 8161165221985287486}
+  _Typestring: Water
+  _PlantPod: {fileID: 1893317404593633876}
 --- !u!1 &1641964699372078371
 GameObject:
   m_ObjectHideFlags: 0
@@ -5064,6 +5066,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nutrient_display: {fileID: 2690502145969453226}
   percentageNumber: {fileID: 5752374322186660673}
+  _Typestring: Temp
+  _PlantPod: {fileID: 1893317404593633876}
 --- !u!1 &6927473360047264087
 GameObject:
   m_ObjectHideFlags: 0
@@ -6099,6 +6103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nutrient_display: {fileID: 8428295046408823259}
   percentageNumber: {fileID: 4467971268809092100}
+  _Typestring: Oxygen
+  _PlantPod: {fileID: 1893317404593633876}
 --- !u!1 &8493291475053616414
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ public class Lever_script : MonoBehaviour
     public float TargetValue;
     public UnityEvent onTrigger;
 
+    public bool start = false;
+
     private bool Triggered;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,7 @@ public class Lever_script : MonoBehaviour
     void Update()
     {
       
-        if (gameObject.transform.rotation.x <= TargetValue && !Triggered)
+        if (gameObject.transform.rotation.x <= TargetValue && !Triggered || start)
         {
             onTrigger.Invoke();
             Triggered = true;

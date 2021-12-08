@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
-public class Energy_Manager : MonoBehaviour
+public class Energy_Manager : MonoBehaviourPunCallbacks
 {
     public static Energy_Manager _Current;
 
@@ -34,7 +34,7 @@ public class Energy_Manager : MonoBehaviour
     [SerializeField]
     private int _DismissRange;
 
-    [SerializeField] private ProgressManager _ProgressManager;
+    [SerializeField] private StartSystemManager _StartSystemManager;
 
     //Sync vars 
     [SerializeField] private ExitGames.Client.Photon.Hashtable _RedEnergyProp = new ExitGames.Client.Photon.Hashtable();
@@ -56,15 +56,27 @@ public class Energy_Manager : MonoBehaviour
     }
 
     //Fixed update to check data and fix items.
-    private void FixedUpdate()
+    private void Update()
     {
-        _EnergyRed = (float)PhotonNetwork.CurrentRoom.CustomProperties["RedEnergy"];
-        _EnergyGreen = (float)PhotonNetwork.CurrentRoom.CustomProperties["GreenEnergy"];
-
         if (_EnergyGreen >= _TargetEnergyGreen - _DismissRange && _EnergyGreen <= _TargetEnergyGreen + _DismissRange
             && _EnergyRed >= _TargetEnergyRed - _DismissRange && _EnergyRed <= _TargetEnergyRed + _DismissRange)
         {
-            _ProgressManager.RoomFixed(3);
+            _StartSystemManager.P_EnergyFixed = true;
+        }
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
+    {
+        Debug.Log(property);
+        if (property.ContainsKey("RedEnergy"))
+        {
+            _EnergyRed = (float)PhotonNetwork.CurrentRoom.CustomProperties["RedEnergy"];
+            Debug.Log("property changed: " + _EnergyRed);
+        }
+        if (property.ContainsKey("GreenEnergy"))
+        {
+            _EnergyGreen = (float)PhotonNetwork.CurrentRoom.CustomProperties["GreenEnergy"];
+            Debug.Log("property changed: " + _EnergyRed);
         }
     }
 

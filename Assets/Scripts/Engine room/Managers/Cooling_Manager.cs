@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using Photon.Pun;
 
-public class Cooling_Manager : MonoBehaviour
+public class Cooling_Manager : MonoBehaviourPunCallbacks
 {
     public static Cooling_Manager current;
 
@@ -34,7 +34,7 @@ public class Cooling_Manager : MonoBehaviour
     [SerializeField]
     private int _DismissRange;
 
-    [SerializeField] private ProgressManager _ProgressManager;
+    [SerializeField] private StartSystemManager _StartSystemManager;
 
     //Sync vars 
     [SerializeField] private ExitGames.Client.Photon.Hashtable _RedCoolingProp = new ExitGames.Client.Photon.Hashtable();
@@ -66,12 +66,23 @@ public class Cooling_Manager : MonoBehaviour
         if (_CoolingGreen >= _TargetCoolingGreen - _DismissRange && _CoolingGreen <= _TargetCoolingGreen + _DismissRange 
             && _CoolingRed >= _TargetCoolingRed - _DismissRange && _CoolingRed <= _TargetCoolingRed + _DismissRange )
         {
-            Debug.Log("Cooling Fixed");
+            _StartSystemManager.P_CoolingFixed = true;
         }
+    }
 
-        Mathf.Clamp(_CoolingGreen, 0.1f, _MaxCooling);
-        Mathf.Clamp(_CoolingRed, 0.1f, _MaxCooling);
-
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
+    {
+        Debug.Log(property);
+        if (property.ContainsKey("RedCooling"))
+        {
+            _CoolingRed = (float)PhotonNetwork.CurrentRoom.CustomProperties["RedCooling"];
+            Debug.Log("property changed: " + _CoolingRed);
+        }
+        if (property.ContainsKey("GreenCooling"))
+        {
+            _CoolingGreen = (float)PhotonNetwork.CurrentRoom.CustomProperties["GreenCooling"];
+            Debug.Log("property changed: " + _CoolingGreen);
+        }
     }
 
     //event and function for manager.

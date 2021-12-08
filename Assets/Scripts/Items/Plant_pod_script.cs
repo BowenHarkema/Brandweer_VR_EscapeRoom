@@ -4,8 +4,9 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine;
 using Photon.Pun;
+using ExitGames.Client.Photon;
 
-public class Plant_pod_script : MonoBehaviour
+public class Plant_pod_script : MonoBehaviourPunCallbacks
 {
     //  plant pod plant selection ENUM
     public enum Selected_plant
@@ -54,7 +55,6 @@ public class Plant_pod_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         //Checks if nutrient values match their target
         oxygen = oxygen_current.value == target_oxygen ? true : false;
         water = water_current.value == target_water ? true : false;
@@ -65,12 +65,25 @@ public class Plant_pod_script : MonoBehaviour
 
         //sets alive or dead texture if the nutrients are balanced
         plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Nutrients_balanced == true ? Alive_texture : Dead_texture;
+    }
 
-        _PodProps["Oxygen" + podNumber.ToString()] = oxygen_current.value;
-        _PodProps["Water" + podNumber.ToString()] = water_current.value;
-        _PodProps["Temp" + podNumber.ToString()] = temperature_current.value;
-
-        PhotonNetwork.CurrentRoom.SetCustomProperties(_PodProps);
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
+    {
+        if (property.ContainsKey("Oxygen" + podNumber.ToString()))
+        {
+            oxygen_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Oxygen" + podNumber.ToString()];
+            Debug.Log("property changed: " + oxygen_current.value);
+        }
+        if (property.ContainsKey("Water" + podNumber.ToString()))
+        {
+            oxygen_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Water" + podNumber.ToString()];
+            Debug.Log("property changed: " + oxygen_current.value);
+        }
+        if (property.ContainsKey("Temp" + podNumber.ToString()))
+        {
+            oxygen_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Temp" + podNumber.ToString()];
+            Debug.Log("property changed: " + oxygen_current.value);
+        }
     }
 
     //Handles the first spawning of the plant, as well as set values for plants so its values are the same to every player
@@ -134,5 +147,10 @@ public class Plant_pod_script : MonoBehaviour
             fire_placeholder.SetActive(false);
         }
 
+        _PodProps["Oxygen" + podNumber.ToString()] = oxygen_current.value;
+        _PodProps["Water" + podNumber.ToString()] = water_current.value;
+        _PodProps["Temp" + podNumber.ToString()] = temperature_current.value;
+
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_PodProps);
     }
 }
