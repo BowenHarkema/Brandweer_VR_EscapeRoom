@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using TMPro;
 using Photon.Pun;
 
-public class GeneratorSync : MonoBehaviour
+public class GeneratorSync : MonoBehaviourPunCallbacks
 {
     [SerializeField] private int _generatorUpCount;
     public int P_GeneratorUpCount { get { return _generatorUpCount; } set { _generatorUpCount = value; } }
@@ -21,6 +21,16 @@ public class GeneratorSync : MonoBehaviour
         PhotonNetwork.CurrentRoom.SetCustomProperties(_GenCountProp);
     }
 
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
+    {
+        Debug.Log(property);
+        if (property.ContainsKey("GenCount"))
+        {
+            _generatorUpCount = (int)PhotonNetwork.CurrentRoom.CustomProperties["GenCount"];
+            generatorUpText.text = $"Werkende generators: {_generatorUpCount.ToString()}/4";
+            Debug.Log("property changed: " + _GenCountProp);
+        }
+    }
     //event that gets called when powercell is inserted into generator
     public void generatorUp()
     {

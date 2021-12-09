@@ -18,12 +18,12 @@ public class Plant_support_display : MonoBehaviour
         goodpods.text = "";
         badpods.text = "";        
 
-        for (int i = 0; i < 6 - brokenpods + 1; i++)
+        for (int i = 0; i < 6 - brokenpods; i++)
         {
             goodpods.text += "█ ";
         }
 
-        for (int i = 0; i < brokenpods + 1; i++)
+        for (int i = 0; i < brokenpods; i++)
         {
             badpods.text += "█ ";
         }

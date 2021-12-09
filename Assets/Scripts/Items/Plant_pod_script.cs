@@ -50,6 +50,8 @@ public class Plant_pod_script : MonoBehaviourPunCallbacks
     public GameObject fire_placeholder;
     public GameObject barcode;
 
+    [SerializeField] private GameObject _FixedLight;
+
     [SerializeField] private ExitGames.Client.Photon.Hashtable _PodProps = new ExitGames.Client.Photon.Hashtable();
 
     // Update is called once per frame
@@ -65,6 +67,14 @@ public class Plant_pod_script : MonoBehaviourPunCallbacks
 
         //sets alive or dead texture if the nutrients are balanced
         plant_placeholder.transform.GetChild(0).gameObject.GetComponent<MeshRenderer>().material = Nutrients_balanced == true ? Alive_texture : Dead_texture;
+        if(Nutrients_balanced)
+        {
+            _FixedLight.SetActive(true);
+        }
+        else
+        {
+            _FixedLight.SetActive(false);
+        }
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
@@ -76,13 +86,13 @@ public class Plant_pod_script : MonoBehaviourPunCallbacks
         }
         if (property.ContainsKey("Water" + podNumber.ToString()))
         {
-            oxygen_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Water" + podNumber.ToString()];
-            Debug.Log("property changed: " + oxygen_current.value);
+            water_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Water" + podNumber.ToString()];
+            Debug.Log("property changed: " + water_current.value);
         }
         if (property.ContainsKey("Temp" + podNumber.ToString()))
         {
-            oxygen_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Temp" + podNumber.ToString()];
-            Debug.Log("property changed: " + oxygen_current.value);
+            temperature_current.value = (float)PhotonNetwork.CurrentRoom.CustomProperties["Temp" + podNumber.ToString()];
+            Debug.Log("property changed: " + temperature_current.value);
         }
     }
 

@@ -25,7 +25,7 @@ public class SpawnManager : MonoBehaviour
             {
                 canvas.worldCamera = PlayerCam;
             }
-        _Player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount()].transform.position,Quaternion.identity);
+        _Player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount() - 1].transform.position,Quaternion.identity);
             //CheckPlayerCount()
         }
     }

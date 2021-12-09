@@ -29,7 +29,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         roomOptions.MaxPlayers = 10;
         
-        PhotonNetwork.CreateRoom("Devtest", roomOptions);
+        PhotonNetwork.CreateRoom("LWBP_DEVTEST2", roomOptions);
         
     }
     public override void OnJoinedRoom()

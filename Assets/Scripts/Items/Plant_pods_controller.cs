@@ -7,6 +7,7 @@ public class Plant_pods_controller : MonoBehaviour
 {
     public PlantsDB Plant_DB;
     private Plant_pod_script[] podscripts;
+    [SerializeField] private ProgressManager _ProgressManager;
     void Start()
     {
         podscripts = gameObject.GetComponentsInChildren<Plant_pod_script>();
@@ -41,6 +42,14 @@ public class Plant_pods_controller : MonoBehaviour
                 pods++;
             }
         }
+
+        Debug.Log(pods);
+
+        if(pods <= 0)
+        {
+            _ProgressManager.RoomFixed(2);
+        }
+
         return pods;
     }
 }

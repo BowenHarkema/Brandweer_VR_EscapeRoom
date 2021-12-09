@@ -447,6 +447,7 @@ MonoBehaviour:
   localXRig: {fileID: 8728033014646829294}
   avatarHead: {fileID: 9156940640966957474}
   avatarBody: {fileID: 4141584969843804001}
+  avatarHair: {fileID: 7980371540252115103}
 --- !u!114 &3183648488307132620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2739,9 +2740,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8728033015067005379}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3717433666354099984 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5383712445752567507, guid: 089d38c2beff1f044b446797593d7269,
+--- !u!1 &4141584969843804001 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4636999383082096290, guid: 089d38c2beff1f044b446797593d7269,
     type: 3}
   m_PrefabInstance: {fileID: 8728033015067005379}
   m_PrefabAsset: {fileID: 0}
@@ -2781,9 +2782,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8728033015067005379}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4141584969843804001 stripped
+--- !u!1 &7980371540252115103 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 4636999383082096290, guid: 089d38c2beff1f044b446797593d7269,
+  m_CorrespondingSourceObject: {fileID: 1702301744721957212, guid: 089d38c2beff1f044b446797593d7269,
+    type: 3}
+  m_PrefabInstance: {fileID: 8728033015067005379}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3717433666354099984 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5383712445752567507, guid: 089d38c2beff1f044b446797593d7269,
     type: 3}
   m_PrefabInstance: {fileID: 8728033015067005379}
   m_PrefabAsset: {fileID: 0}
