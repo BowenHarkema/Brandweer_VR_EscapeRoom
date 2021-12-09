@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.Events;
 
 public class RodHandler : MonoBehaviour
@@ -11,16 +12,27 @@ public class RodHandler : MonoBehaviour
     [SerializeField] private ParticleSystem coreSmoke;
     [SerializeField] private AudioSource _source;
     [SerializeField] private AudioClip _audioClip;
+    [SerializeField] private AudioSource _source1;
+    [SerializeField] private AudioClip _audioClip1;
+    [SerializeField] private AudioSource _source2;
+    [SerializeField] private AudioClip _audioClip2;
+    [SerializeField] private AudioSource _source3;
+    [SerializeField] private AudioClip _audioClip3;
+    [SerializeField] private TextMeshProUGUI _textCount;
+
+    [SerializeField] private int _sequenceCounter = 0;
 
 
     [SerializeField] private string rightSequence;
-    [SerializeField] private string currentSequence;
 
-    public UnityEvent WrongSeq;
+    [SerializeField] private string currentSequence;
     
     private void Start()
     {
-        rightSequence = "162233122436132331142632";
+        _sequenceCounter = 1;
+        rightSequence = "162233";
+        _textCount.text = _sequenceCounter.ToString();
+
         currentSequence = "";
     }
     private void Update()
@@ -30,7 +42,27 @@ public class RodHandler : MonoBehaviour
             coreSphere.GetComponent<Light>().color = Color.blue;
             coreSmoke.GetComponent<ParticleSystem>().startColor = Color.blue;
             AddRodToSequence(rodNameSetter);
+            
         }
+        if (_sequenceCounter == 2)
+        {
+            rightSequence = "122436";
+            _textCount.text = _sequenceCounter.ToString();
+            print("sequentie 2 nu");
+        }
+        if (_sequenceCounter == 3)
+        {
+            
+            rightSequence = "132331";
+            _textCount.text = _sequenceCounter.ToString();
+            print("sequentie 3 nu");
+        }
+        if(_sequenceCounter == 4)
+        {
+            
+            print("core fixed");
+        }
+     
     }
 
     //switch case met de corresponderende rod code die naar de currentsequence schrijft
@@ -129,7 +161,21 @@ public class RodHandler : MonoBehaviour
             currentSequence = "";
             coreSphere.GetComponent<Light>().color = Color.green;
             coreSmoke.GetComponent<ParticleSystem>().startColor = Color.green;
-            print("core is stabiel");
+            _sequenceCounter++;
+            if(_sequenceCounter == 2)
+            {
+                _source1.PlayOneShot(_audioClip1);
+            }
+            if (_sequenceCounter == 3)
+            {
+                _source2.PlayOneShot(_audioClip2);
+            }
+            if (_sequenceCounter == 4)
+            {
+                _source3.PlayOneShot(_audioClip3);
+            }
+            wrongSequence();
+            print("core gaat naar volgende sequentie");
         }
     }
     //maakt een objarray met alle rods, gaat vervolgens per array de rigidbody terug zetten
