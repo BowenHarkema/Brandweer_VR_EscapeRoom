@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Events;
+using Photon.Pun;
 
-public class RodHandler : MonoBehaviour
+public class RodHandler : MonoBehaviourPunCallbacks
 {
     [SerializeField] public string rodNameSetter;
     [SerializeField] private List<GameObject> Rods;
@@ -26,7 +27,11 @@ public class RodHandler : MonoBehaviour
     [SerializeField] private string rightSequence;
 
     [SerializeField] private string currentSequence;
-    
+
+    [SerializeField] private ProgressManager _ProgressManager;
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _SequenceCounterProp = new ExitGames.Client.Photon.Hashtable();
+
+
     private void Start()
     {
         _sequenceCounter = 1;
@@ -34,6 +39,10 @@ public class RodHandler : MonoBehaviour
         _textCount.text = _sequenceCounter.ToString();
 
         currentSequence = "";
+        _SequenceCounterProp["SequenceCounter"] = _sequenceCounter;
+        _SequenceCounterProp["CurrentSequence"] = currentSequence;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
+
     }
     private void Update()
     {
@@ -59,10 +68,23 @@ public class RodHandler : MonoBehaviour
         }
         if(_sequenceCounter == 4)
         {
-            
+            _ProgressManager.RoomFixed(4);
             print("core fixed");
         }
      
+    }
+
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
+    {
+        Debug.Log(property);
+        if (property.ContainsKey("SequenceCounter"))
+        {
+            _sequenceCounter = (int)PhotonNetwork.CurrentRoom.CustomProperties["SequenceCounter"];
+        }
+        if (property.ContainsKey("CurrentSequence"))
+        {
+            currentSequence = (string)PhotonNetwork.CurrentRoom.CustomProperties["CurrentSequence"];
+        }
     }
 
     //switch case met de corresponderende rod code die naar de currentsequence schrijft
@@ -143,9 +165,56 @@ public class RodHandler : MonoBehaviour
                 rodNameSetter = "";
                 break;
         }
+
+        _SequenceCounterProp["CurrentSequence"] = currentSequence;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
+
         //kijkt op de currentsequence niet hetzelfde is als de rightsequence lengte van de currentsequence
         //zo nee start de functie wrongsequence
-        if (currentSequence != rightSequence.Substring(0, currentSequence.Length))
+        if (currentSequence.Length == 6)
+        {
+            if(currentSequence == rightSequence)
+            {
+                currentSequence = "";
+                coreSphere.GetComponent<Light>().color = Color.green;
+                coreSmoke.GetComponent<ParticleSystem>().startColor = Color.green;
+                _sequenceCounter++;
+
+                _SequenceCounterProp["CurrentSequence"] = currentSequence;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
+
+                _SequenceCounterProp["SequenceCounter"] = _sequenceCounter;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
+
+                if (_sequenceCounter == 2)
+                {
+                    _source1.PlayOneShot(_audioClip1);
+                }
+                if (_sequenceCounter == 3)
+                {
+                    _source2.PlayOneShot(_audioClip2);
+                }
+                if (_sequenceCounter == 4)
+                {
+                    _source3.PlayOneShot(_audioClip3);
+                }
+                wrongSequence();
+                print("core gaat naar volgende sequentie");
+            }
+            else
+            {
+                currentSequence = "";
+                coreSphere.GetComponent<Light>().color = Color.red;
+                coreSmoke.GetComponent<ParticleSystem>().startColor = Color.red;
+                wrongSequence();
+                _source.PlayOneShot(_audioClip);
+                print("lekker man nu is alles kapot");
+
+                _SequenceCounterProp["CurrentSequence"] = currentSequence;
+                PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
+            }
+        }
+        else if (currentSequence.Length > 6)
         {
             currentSequence = "";
             coreSphere.GetComponent<Light>().color = Color.red;
@@ -153,29 +222,9 @@ public class RodHandler : MonoBehaviour
             wrongSequence();
             _source.PlayOneShot(_audioClip);
             print("lekker man nu is alles kapot");
-            
-        }
-        else if (currentSequence == rightSequence)
-        {
-            
-            currentSequence = "";
-            coreSphere.GetComponent<Light>().color = Color.green;
-            coreSmoke.GetComponent<ParticleSystem>().startColor = Color.green;
-            _sequenceCounter++;
-            if(_sequenceCounter == 2)
-            {
-                _source1.PlayOneShot(_audioClip1);
-            }
-            if (_sequenceCounter == 3)
-            {
-                _source2.PlayOneShot(_audioClip2);
-            }
-            if (_sequenceCounter == 4)
-            {
-                _source3.PlayOneShot(_audioClip3);
-            }
-            wrongSequence();
-            print("core gaat naar volgende sequentie");
+
+            _SequenceCounterProp["CurrentSequence"] = currentSequence;
+            PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
         }
     }
     //maakt een objarray met alle rods, gaat vervolgens per array de rigidbody terug zetten
@@ -193,9 +242,5 @@ public class RodHandler : MonoBehaviour
             script.ResetPosition();
             
         }
-
-
     }
-
-
 }
