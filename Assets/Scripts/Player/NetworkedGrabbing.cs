@@ -8,14 +8,15 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
 {
     private PhotonView PhotonView;
     private Rigidbody Rigidbody;
-    public bool isheld = false;
+    public bool P_isheld = false;
     // Start is called before the first frame update
     private void Awake()
     {
-        PhotonView = GetComponent<PhotonView>();
+        //PhotonView = GetComponent<PhotonView>();
     }
     void Start()
     {
+        PhotonView = GetComponent<PhotonView>();
         Rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -23,7 +24,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     void Update()
     {
         if(gameObject.tag != "Lever") { 
-        if (isheld)
+        if (P_isheld)
         {
             Rigidbody.isKinematic = true;
             gameObject.layer = 12;
@@ -34,6 +35,11 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
             gameObject.layer = 8;
         }
         }
+        if(gameObject.tag == "powercell")
+        {
+            P_isheld = true;
+            Rigidbody.isKinematic = false;
+        }
     }
     private void TransferOwnership()
     {
@@ -42,7 +48,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     public void OnSelectEnter()
     {
         TransferOwnership();
-        photonView.RPC("StartNetworkedGrabbing",RpcTarget.AllBuffered);
+        photonView.RPC("StartNetworkedGrabbing", RpcTarget.All);
         if(photonView.Owner == PhotonNetwork.LocalPlayer)
         {
             Debug.Log("object is already mine");
@@ -55,7 +61,7 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     public void OnSelectExit()
     {
         TransferOwnership();
-        photonView.RPC("StopNetworkedGrabbing", RpcTarget.AllBuffered);
+        photonView.RPC("StopNetworkedGrabbing", RpcTarget.All);
     }
 
     public void OnOwnershipRequest(PhotonView targetView, Player requestingPlayer)
@@ -72,12 +78,12 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
     [PunRPC]
     public void StartNetworkedGrabbing()
     {
-        isheld = true;
+        P_isheld = true;
     }
 
     [PunRPC]
     public void StopNetworkedGrabbing()
     {
-        isheld = false;
+        P_isheld = false;
     }
 }

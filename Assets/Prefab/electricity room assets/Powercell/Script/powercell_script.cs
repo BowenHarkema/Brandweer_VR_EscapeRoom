@@ -58,6 +58,8 @@ public class powercell_script : MonoBehaviour
                 rigi.isKinematic=false;
                 rigi.useGravity=true;
 
+                rigi.constraints = RigidbodyConstraints.None;
+
             break;
         }
     }

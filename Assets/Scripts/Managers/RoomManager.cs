@@ -6,17 +6,6 @@ using Photon.Realtime;
 
 public class RoomManager : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void JoinRandomRoom()
     {
         Debug.Log("attempt to join room");
@@ -40,11 +29,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
 
         roomOptions.MaxPlayers = 10;
         
-        PhotonNetwork.CreateRoom("escaperoom", roomOptions);
+        PhotonNetwork.CreateRoom("LWBP_DEVTEST2", roomOptions);
         
     }
     public override void OnJoinedRoom()
     {
-        PhotonNetwork.LoadLevel("LWBP_Ship");
+        PhotonNetwork.LoadLevel("Development_engine_room");
     }
 }

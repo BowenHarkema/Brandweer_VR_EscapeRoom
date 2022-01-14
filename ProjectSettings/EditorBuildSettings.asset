@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/Scenes/LWPB_Login.unity
     guid: 4c3f3aaa45c20f647bc312389f35f272
   - enabled: 1
-    path: Assets/Scenes/LWBP_Ship.unity
-    guid: 8c0ee3588ffb48a45abfffd0cf727a4b
+    path: Assets/Scenes/Development_engine_room.unity
+    guid: 4fee2b5e7ccf1d5428e8007abddf4c9c
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3d33396cd7b06b14c924d8353d0a2bcf,
       type: 2}

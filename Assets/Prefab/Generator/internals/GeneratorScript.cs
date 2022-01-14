@@ -1,24 +1,45 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class GeneratorScript : MonoBehaviour
+public class GeneratorScript : MonoBehaviourPunCallbacks
 {
     public int cellsNeeded=1;
     public float moveInTime=4f;
+    [SerializeField]
+    private NetworkedGrabbing _NetworkGrabbing;
 
     public UnityEvent generatorStarted = new UnityEvent();
 
     GameObject hatch;
 
+    [SerializeField] private bool _genUp = false;
+    [SerializeField] private int _Gennumber;
+    [SerializeField] private ExitGames.Client.Photon.Hashtable _GenProp = new ExitGames.Client.Photon.Hashtable();
+
     // Start is called before the first frame update
     void Start(){
         hatch=transform.Find("Hinge/Hatch").gameObject;
         hatch.GetComponent<HatchScript>().openHatch();
+
+        _GenProp["genstatus" + _Gennumber] = _genUp;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_GenProp);
     }
 
-    
+    public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
+    {
+        if (property.ContainsKey("genstatus" + _Gennumber))
+        {
+            _genUp = (bool)PhotonNetwork.CurrentRoom.CustomProperties["genstatus" + _Gennumber];
+            if(_genUp)
+            {
+                powerup();
+            }
+        }
+    }
+
     void OnCollisionEnter(Collision collision){
         if(cellsNeeded<=0) return;
 
@@ -27,6 +48,7 @@ public class GeneratorScript : MonoBehaviour
         // check for full powercell
         if(go.tag.Equals("powercell")){
             if(go.GetComponent<powercell_script>().cellState==CellState.FULL){
+                //go.GetComponent<NetworkedGrabbing>().P_isheld = false;
                 takeCell(go);
             }
         }
@@ -36,8 +58,7 @@ public class GeneratorScript : MonoBehaviour
     bool iscellTaken=false;
 
     void takeCell(GameObject powercell){
-
-        if(powercell==currentCell) return;
+        if (powercell==currentCell) return;
 
         if(currentCell!=null){
             // destroy the cell
@@ -57,11 +78,15 @@ public class GeneratorScript : MonoBehaviour
         Destroy(grabi,0f);
 
         // make unmovable
+        var networkgrab = currentCell.GetComponent<NetworkedGrabbing>();
+        networkgrab.P_isheld = false;
+        networkgrab.enabled = false;
+
         var rigi = currentCell.GetComponent<Rigidbody>();
         rigi.isKinematic=true;
         rigi.useGravity=false;
         rigi.freezeRotation=true;
-        Destroy(rigi,0f);
+        Destroy(rigi, 0f);
 
         // set relative to the generator
         currentCell.transform.parent=gameObject.transform;
@@ -71,41 +96,38 @@ public class GeneratorScript : MonoBehaviour
         currentCell.transform.localEulerAngles=new Vector3(-90f,0f,0f);
 
         iscellTaken=false;
-    }
-
-    // Update is called once per frame
-    // if there is a current cell, it should move its relative Z position from -0.7 to 0.5 in about 4 seconds.
-    void Update(){
-        if(currentCell==null || iscellTaken ) return;
-        
-        Vector3 transform=currentCell.transform.localPosition;
-
-        // Z movement: 1.2 meter over moveInTime seconds
-        transform.z += 1.2f / moveInTime * Time.deltaTime;
-
-        currentCell.transform.localPosition=transform;
-
-        if(transform.z>=0.5) cellTaken();
+        cellTaken();
     }
 
     // called when the powercell is fully inside the generator.
     void cellTaken(){
-        iscellTaken=true;
+        
+        iscellTaken =true;
 
         // if all the cells are inserted, start the generator.
         cellsNeeded--;
-        if(cellsNeeded<=0) powerup();
+
+        // send generator activated signal.
+        generatorStarted.Invoke();
+
+        _GenProp["genstatus" + _Gennumber] = _genUp;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_GenProp);
+
+        if (cellsNeeded<=0) powerup();  
     }
 
 
     void powerup(){
+
         // close opening hatch
+        if (currentCell != null)
+        {
+            currentCell.SetActive(false);
+        }
+
         hatch.GetComponent<HatchScript>().closeHatch();
 
         GetComponent<AudioSource>().Play();
-
-        // send generator activated signal.
-        generatorStarted.Invoke();
     }
 
 }

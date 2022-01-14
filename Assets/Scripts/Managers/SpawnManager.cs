@@ -10,31 +10,27 @@ public class SpawnManager : MonoBehaviour
     public GameObject PlayerObject;
     public Camera PlayerCam;
 
-    public GameObject EscapeRoomManager;
-
     public List<GameObject> Spawnpos;
     public List<Canvas> canvas;
 
-    private GameObject player;
+    private GameObject _Player;
+
     // Start is called before the first frame update
     void Start()
     {
+        //checks if player is connected to photon and ready then spawns
         if (PhotonNetwork.IsConnectedAndReady)
         {
             foreach (Canvas canvas in canvas)
             {
                 canvas.worldCamera = PlayerCam;
             }
-        player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount()].transform.position,Quaternion.identity);
+        _Player = PhotonNetwork.Instantiate(PlayerObject.name, Spawnpos[CheckPlayerCount() - 1].transform.position,Quaternion.identity);
+            //CheckPlayerCount()
         }
-      EscapeRoomManager.GetComponent<EscapeRoomManager>().TimeDisplays.Add(player.gameObject.transform.Find("Avatar5").Find("HandL").Find("Watch").Find("Canvas").Find("time display").GetComponent<TextMeshProUGUI>());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //checks amount of players connected to current photon server
     private int CheckPlayerCount()
     {
         return PhotonNetwork.CountOfPlayers;
