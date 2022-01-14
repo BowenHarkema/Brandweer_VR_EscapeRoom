@@ -6,18 +6,6 @@ using UnityEngine.XR.Interaction.Toolkit.Inputs.Interactions;
 
 public class ChargingPortScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void OnCollisionEnter(Collision collision){
 
         GameObject go=collision.gameObject;
@@ -37,6 +25,8 @@ public class ChargingPortScript : MonoBehaviour
         cell=go;
 
         // make ungrabbable
+        var networked = go.GetComponent<NetworkedGrabbing>().P_isheld = false;
+
         var grabi= go.GetComponent<UnityEngine.XR.Interaction.Toolkit.XRGrabInteractable>();
         grabi.interactionLayerMask=0; // make ungrabbable
         if(grabi.selectingInteractor!=null) grabi.selectingInteractor.EndManualInteraction(); // drop if grabbed
@@ -47,6 +37,7 @@ public class ChargingPortScript : MonoBehaviour
         var rigi = go.GetComponent<Rigidbody>();
         rigi.isKinematic=true;
         rigi.useGravity=false;
+        rigi.constraints = RigidbodyConstraints.FreezeAll;
 
         // Snap to position
         go.transform.SetPositionAndRotation(this.transform.position,this.transform.rotation);

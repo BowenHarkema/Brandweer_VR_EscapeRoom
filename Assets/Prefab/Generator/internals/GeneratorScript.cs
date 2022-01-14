@@ -25,7 +25,7 @@ public class GeneratorScript : MonoBehaviourPunCallbacks
         hatch.GetComponent<HatchScript>().openHatch();
 
         _GenProp["genstatus" + _Gennumber] = _genUp;
-
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_GenProp);
     }
 
     public override void OnRoomPropertiesUpdate(ExitGames.Client.Photon.Hashtable property)
@@ -33,10 +33,12 @@ public class GeneratorScript : MonoBehaviourPunCallbacks
         if (property.ContainsKey("genstatus" + _Gennumber))
         {
             _genUp = (bool)PhotonNetwork.CurrentRoom.CustomProperties["genstatus" + _Gennumber];
-            powerup();
+            if(_genUp)
+            {
+                powerup();
+            }
         }
     }
-
 
     void OnCollisionEnter(Collision collision){
         if(cellsNeeded<=0) return;
@@ -108,13 +110,17 @@ public class GeneratorScript : MonoBehaviourPunCallbacks
         // send generator activated signal.
         generatorStarted.Invoke();
 
+        _GenProp["genstatus" + _Gennumber] = _genUp;
+        PhotonNetwork.CurrentRoom.SetCustomProperties(_GenProp);
+
         if (cellsNeeded<=0) powerup();  
     }
 
 
     void powerup(){
+
         // close opening hatch
-        if(currentCell != null)
+        if (currentCell != null)
         {
             currentCell.SetActive(false);
         }

@@ -84,6 +84,7 @@ public class RodHandler : MonoBehaviourPunCallbacks
         if (property.ContainsKey("CurrentSequence"))
         {
             currentSequence = (string)PhotonNetwork.CurrentRoom.CustomProperties["CurrentSequence"];
+            CheckSequence();
         }
     }
 
@@ -93,87 +94,146 @@ public class RodHandler : MonoBehaviourPunCallbacks
         switch (rodNumber)
         {
             case "1a":
-                currentSequence += 11;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("11"))
+                {
+                    currentSequence += 11;
+                    rodNameSetter = "";
+                }
                 break;
             case "1b":
-                currentSequence += 12;
-                rodNameSetter = "";
+                if(!currentSequence.Contains("12"))
+                {
+                    currentSequence += 12;
+                    rodNameSetter = "";
+                }
                 break;
             case "1c":
-                currentSequence += 13;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("13"))
+                {
+                    currentSequence += 13;
+                    rodNameSetter = "";
+                }
                 break;
             case "1d":
-                currentSequence += 14;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("14"))
+                {
+                    currentSequence += 14;
+                    rodNameSetter = "";
+                }
                 break;
             case "1e":
-                currentSequence += 15;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("15"))
+                {
+                    currentSequence += 15;
+                    rodNameSetter = "";
+                }
                 break;
             case "1f":
-                currentSequence += 16;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("16"))
+                {
+                    currentSequence += 16;
+                    rodNameSetter = "";
+                }
                 break;
             case "2a":
-                currentSequence += 21;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("21"))
+                {
+                    currentSequence += 21;
+                    rodNameSetter = "";
+                }
                 break;
             case "2b":
-                currentSequence += 22;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("22"))
+                {
+                    currentSequence += 22;
+                    rodNameSetter = "";
+                }
                 break;
             case "2c":
-                currentSequence += 23;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("23"))
+                {
+                    currentSequence += 23;
+                    rodNameSetter = "";
+                }
                 break;
             case "2d":
-                currentSequence += 24;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("24"))
+                {
+                    currentSequence += 24;
+                    rodNameSetter = "";
+                }
                 break;
             case "2e":
-                currentSequence += 25;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("25"))
+                {
+                    currentSequence += 25;
+                    rodNameSetter = "";
+                }
                 break;
             case "2f":
-                currentSequence += 26;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("26"))
+                {
+                    currentSequence += 26;
+                    rodNameSetter = "";
+                }
                 break;
             case "3a":
-                currentSequence += 31;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("31"))
+                {
+                    currentSequence += 31;
+                    rodNameSetter = "";
+                }
                 break;
             case "3b":
-                currentSequence += 32;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("32"))
+                {
+                    currentSequence += 32;
+                    rodNameSetter = "";
+                }
                 break;
             case "3c":
-                currentSequence += 33;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("33"))
+                {
+                    currentSequence += 33;
+                    rodNameSetter = "";
+                }
                 break;
             case "3d":
-                currentSequence += 34;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("34"))
+                {
+                    currentSequence += 34;
+                    rodNameSetter = "";
+                }
                 break;
             case "3e":
-                currentSequence += 35;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("35"))
+                {
+                    currentSequence += 35;
+                    rodNameSetter = "";
+                }
                 break;
             case "3f":
-                currentSequence += 36;
-                rodNameSetter = "";
+                if (!currentSequence.Contains("36"))
+                {
+                    currentSequence += 36;
+                    rodNameSetter = "";
+                }
                 break;
         }
 
         _SequenceCounterProp["CurrentSequence"] = currentSequence;
         PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
 
+        CheckSequence();
+    }
+
+    void CheckSequence()
+    {
         //kijkt op de currentsequence niet hetzelfde is als de rightsequence lengte van de currentsequence
         //zo nee start de functie wrongsequence
         if (currentSequence.Length == 6)
         {
-            if(currentSequence == rightSequence)
+            if (currentSequence == rightSequence)
             {
                 currentSequence = "";
                 coreSphere.GetComponent<Light>().color = Color.green;
@@ -227,6 +287,7 @@ public class RodHandler : MonoBehaviourPunCallbacks
             PhotonNetwork.CurrentRoom.SetCustomProperties(_SequenceCounterProp);
         }
     }
+
     //maakt een objarray met alle rods, gaat vervolgens per array de rigidbody terug zetten
     //de boolean is pressed terug zetten naar false
     //en het script ResetPosition starten in het script van de rods

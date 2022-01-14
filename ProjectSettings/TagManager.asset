@@ -13,6 +13,7 @@ TagManager:
   - RodCollision
   - Rod
   - ButtonBase
+  - RenderCam
   layers:
   - Default
   - TransparentFX
